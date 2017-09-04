@@ -4,6 +4,6 @@ defmodule MrbeekenBackendWeb.UserController do
 
   def index(conn, _params) do
     users = Repo.all(MrbeekenBackendWeb.User)
-    json conn, users
+    render conn, users: users
   end
 end

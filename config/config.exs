@@ -22,13 +22,20 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-  config :mrbeeken_backend, MrbeekenBackendWeb.Repo,
-    adapter: Ecto.Adapters.Postgres,
-    database: "ecto_simple",
-    username: "postgres",
-    password: "postgres",
-    hostname: "localhost",
-    port: "5432"
+config :mrbeeken_backend, MrbeekenBackendWeb.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  database: "ecto_simple",
+  username: "postgres",
+  password: "postgres",
+  hostname: "localhost",
+  port: "5432"
+
+config :plug, :mimes, %{
+  "application/vnd.api+json" => ["json-api"]
+}
+
+config :phoenix, :format_encoders,
+  "json-api": Poison
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

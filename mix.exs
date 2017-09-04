@@ -42,6 +42,7 @@ defmodule MrbeekenBackend.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:ecto, "~> 2.0"},
+      {:ja_serializer, "~> 0.12.0"}
     ]
   end
 
