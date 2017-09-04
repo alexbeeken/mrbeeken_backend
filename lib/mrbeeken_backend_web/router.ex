@@ -10,6 +10,7 @@ defmodule MrbeekenBackendWeb.Router do
   end
 
   pipeline :api do
+    plug CORSPlug, [origin: "http://localhost:4200"]
     plug :accepts, ["json", "json-api"]
     plug JaSerializer.ContentTypeNegotiation
     plug JaSerializer.Deserializer
