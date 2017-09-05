@@ -12,5 +12,6 @@ defmodule MrbeekenBackendWeb.Router do
     pipe_through :api
 
     get "/users", UserController, :index
+    resources "session", SessionController, only: [:index]
   end
 end
