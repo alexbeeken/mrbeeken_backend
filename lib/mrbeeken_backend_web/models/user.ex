@@ -4,6 +4,7 @@ defmodule MrbeekenBackendWeb.User do
 
   schema "users" do
     field :email, :string
+    field :password_hash, :string
 
     timestamps()
   end
