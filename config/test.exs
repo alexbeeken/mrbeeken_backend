@@ -7,7 +7,9 @@ config :mrbeeken_backend, MrbeekenBackendWeb.Endpoint,
   server: false
 
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger,
+  level: :debug,
+  compile_time_purge_level: :debug
 
 # Configure your database
 config :mrbeeken_backend, MrbeekenBackend.Repo,

@@ -1,7 +1,7 @@
 defmodule MrbeekenBackend.GuardianSerializer do
   @behaviour Guardian.Serializer
 
-  alias MrbeekenBackendWeb.Repo
+  alias MrbeekenBackend.Repo
   alias MrbeekenBackendWeb.User
 
   def for_token(user = %User{}), do: { :ok, "User:#{user.id}" }
