@@ -12,6 +12,7 @@ defmodule MrbeekenBackendWeb.Router do
     pipe_through :api
 
     get "/users", UserController, :index
+    post "register", RegistrationController, :create
     resources "session", SessionController, only: [:index]
   end
 end
