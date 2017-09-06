@@ -13,6 +13,6 @@ defmodule MrbeekenBackendWeb.Router do
 
     get "/users", UserController, :index
     post "register", RegistrationController, :create
-    resources "session", SessionController, only: [:index]
+    post "token", SessionController, :create, as: :login
   end
 end

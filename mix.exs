@@ -44,7 +44,7 @@ defmodule MrbeekenBackend.Mixfile do
       {:ecto, "~> 2.0"},
       {:ja_serializer, "~> 0.12.0"},
       {:cors_plug, "~> 1.2"},
-      {:guardian, "~> 1.0-beta"},
+      {:guardian, "~> 0.9"},
       {:comeonin, "~> 2.4"},
     ]
   end

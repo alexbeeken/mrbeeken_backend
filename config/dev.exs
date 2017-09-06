@@ -8,7 +8,6 @@ use Mix.Config
 # with brunch.io to recompile .js and .css sources.
 config :mrbeeken_backend, MrbeekenBackendWeb.Endpoint,
   http: [port: 4000],
-  debug_errors: true,
   code_reloader: true,
   check_origin: false,
   watchers: [node: ["node_modules/brunch/bin/brunch", "watch", "--stdin",
