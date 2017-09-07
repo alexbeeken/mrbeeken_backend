@@ -7,14 +7,16 @@ defmodule MrbeekenBackendWeb.SessionsController do
   def create(conn, params) do
     user = Repo.get_by(User, email: params["username"]) |> Repo.preload(:session)
     correct_pw = Comeonin.Bcrypt.checkpw(params["password"], user.password_hash)
-    session = Session.changeset(%Session{}, %{user_id: user.id})
-    session = Repo.insert!(session) |> Repo.preload(:user)
-    if correct_pw do
-      conn
-      |> put_status(200)
-      |> render("show.json-api", data: session)
-    else
-      IO.puts("UNsuccessful LOGIN")
-    end
+    changeset = Session.changeset(%Session{}, %{user_id: user.id})
+    case Repo.insert(changeset) do
+     {:ok, session} ->
+       conn
+       |> put_status(201)
+       |> render("show.json-api", data: session)
+     {:error, changeset} ->
+       conn
+       |> put_status(422)
+       |> render(:errors, data: changeset)
+   end
   end
 end
