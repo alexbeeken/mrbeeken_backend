@@ -1,4 +1,3 @@
-require IEx
 defmodule MrbeekenBackendWeb.SessionsController do
   use MrbeekenBackendWeb, :controller
   alias MrbeekenBackend.Repo
@@ -9,7 +8,7 @@ defmodule MrbeekenBackendWeb.SessionsController do
     unless Comeonin.Bcrypt.checkpw(params["password"], user.password_hash) do
       conn
       |> put_status(400)
-      |> render(:errors, data: %{errors: [%{message: "bad_password"}]})
+      |> render(:errors, %{errors: [%{title: "bad password"}]})
     else
       changeset = Session.changeset(%Session{}, %{user_id: user.id})
       case Repo.insert(changeset) do
@@ -20,7 +19,8 @@ defmodule MrbeekenBackendWeb.SessionsController do
        {:error, changeset} ->
          conn
          |> put_status(400)
-         |> render(:errors, data: changeset)
+         |> JaSerializer.EctoErrorSerializer.format(changeset)
+         |> Poison.encode!
       end
     end
   end
