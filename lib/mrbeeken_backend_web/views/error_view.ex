@@ -1,7 +1,13 @@
 defmodule MrbeekenBackendWeb.ErrorView do
   use JaSerializer.PhoenixView
 
-  def render("500.json-api", data) do
-    JaSerializer.ErrorSerializer.format(data)
+  def render("404.json-api", data) do
+    %{
+      errors: [
+        %{
+          title: "route not found"
+        }
+      ]
+    }
   end
 end
