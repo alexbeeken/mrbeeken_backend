@@ -1,12 +1,14 @@
 defmodule MrbeekenBackendWeb.User do
   use Ecto.Schema
   import Ecto.Changeset
+  alias MrbeekenBackendWeb.Session
 
   schema "users" do
     field :email, :string
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string
+    has_one :session, Session
 
     timestamps()
   end
