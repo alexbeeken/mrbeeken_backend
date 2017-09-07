@@ -3,7 +3,7 @@ defmodule MrbeekenBackendWeb.Router do
 
   pipeline :api do
     plug CORSPlug, [origin: "http://localhost:4200"]
-    plug :accepts, ["json", "json-api"]
+    plug :accepts, ["json-api"]
     plug JaSerializer.ContentTypeNegotiation
     plug JaSerializer.Deserializer
   end
@@ -11,8 +11,7 @@ defmodule MrbeekenBackendWeb.Router do
   scope "/api/v1", MrbeekenBackendWeb do
     pipe_through :api
 
-    get "/users", UserController, :index
-    post "register", RegistrationController, :create
-    post "token", SessionController, :create, as: :login
+    resources "/sessions", SessionsController
+    resources "/users", UserController
   end
 end

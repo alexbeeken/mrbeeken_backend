@@ -13,7 +13,7 @@ config :mrbeeken_backend,
 config :mrbeeken_backend, MrbeekenBackendWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "e1SXjRdgNleuQbF1qQpYR079RPbQLIZPNZ+xiuBvVyCo6tVJqT3mvhpSVLAJ6Pq+",
-  render_errors: [view: MrbeekenBackendWeb.ErrorView, accepts: ~w(html json)],
+  render_errors: [view: MrbeekenBackendWeb.ErrorView, accepts: ~w(json-api)],
   pubsub: [name: MrbeekenBackend.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
@@ -36,6 +36,8 @@ config :plug, :mimes, %{
 
 config :phoenix, :format_encoders,
   "json-api": Poison
+
+config :ja_resource, repo: MrbeekenBackend.Repo
 
 config :guardian, Guardian,
   allowed_algos: ["HS512"], # optional

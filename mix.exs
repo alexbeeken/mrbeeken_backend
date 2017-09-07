@@ -20,7 +20,7 @@ defmodule MrbeekenBackend.Mixfile do
   def application do
     [
       mod: {MrbeekenBackend.Application, []},
-      extra_applications: [:logger, :runtime_tools, :comeonin]
+      extra_applications: [:logger, :runtime_tools, :comeonin, :ja_resource]
     ]
   end
 
@@ -46,6 +46,7 @@ defmodule MrbeekenBackend.Mixfile do
       {:cors_plug, "~> 1.2"},
       {:guardian, "~> 0.9"},
       {:comeonin, "~> 2.4"},
+      {:ja_resource, "~> 0.3.0"}
     ]
   end
 
