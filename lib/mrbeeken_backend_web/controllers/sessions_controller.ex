@@ -4,7 +4,7 @@ defmodule MrbeekenBackendWeb.SessionsController do
   alias MrbeekenBackendWeb.{User, Session}
 
   def create(conn, params) do
-    user = Repo.get_by(User, email: params["username"]) |> Repo.preload(:session)
+    user = Repo.get_by(User, email: params["username"])
     unless Comeonin.Bcrypt.checkpw(params["password"], user.password_hash) do
       conn
       |> put_status(400)
