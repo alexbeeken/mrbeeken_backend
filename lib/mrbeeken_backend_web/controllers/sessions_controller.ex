@@ -1,14 +1,14 @@
 defmodule MrbeekenBackendWeb.SessionsController do
   use MrbeekenBackendWeb, :controller
   alias MrbeekenBackend.Repo
-  alias MrbeekenBackendWeb.{User, Session}
+  alias MrbeekenBackendWeb.{User,Session,Errors}
 
   def create(conn, params) do
     user = Repo.get_by(User, email: params["username"])
     unless Comeonin.Bcrypt.checkpw(params["password"], user.password_hash) do
       conn
       |> put_status(400)
-      |> render(MrbeekenBackendWeb.ErrorView, "400.json-api", %{title: "bad password"})
+      |> render(MrbeekenBackendWeb.ErrorView, "400.json-api", Errors.password_bad)
     else
       changeset = Session.changeset(%Session{}, %{user_id: user.id})
       case Repo.insert(changeset) do
