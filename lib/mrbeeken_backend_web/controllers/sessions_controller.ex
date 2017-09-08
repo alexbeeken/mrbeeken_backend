@@ -8,7 +8,7 @@ defmodule MrbeekenBackendWeb.SessionsController do
     unless Comeonin.Bcrypt.checkpw(params["password"], user.password_hash) do
       conn
       |> put_status(400)
-      |> render(:errors, %{errors: [%{title: "bad password"}]})
+      |> render(MrbeekenBackendWeb.ErrorView, "400.json-api", %{title: "bad password"})
     else
       changeset = Session.changeset(%Session{}, %{user_id: user.id})
       case Repo.insert(changeset) do

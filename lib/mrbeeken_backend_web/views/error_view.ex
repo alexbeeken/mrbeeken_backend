@@ -10,4 +10,14 @@ defmodule MrbeekenBackendWeb.ErrorView do
       ]
     }
   end
+
+  def render("400.json-api", data) do
+    %{
+      errors: [
+        %{
+          title: data[:title]
+        }
+      ]
+    }
+  end
 end
