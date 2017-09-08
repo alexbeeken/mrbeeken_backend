@@ -22,17 +22,14 @@ defmodule MrbeekenBackendWeb.SessionsControllerTest do
     conn = post conn, sessions_path(conn, :create), @request_attrs
     session = Session |> Repo.get_by(user_id: user.id)
 
-    assert json_response(conn, 201) == %{
-      "data" => %{
-        "attributes" => %{
-          "token" => "12345"
-        },
-        "id" => "#{session.id}",
-        "type" => "sessions"
-      },
-      "jsonapi" => %{
-        "version" => "1.0"
-      }
-    }
+    assert json_response(conn, 201) == render_json("show.json-api", session: session)
+  end
+
+  defp render_json(template, assigns) do
+    assigns = Map.new(assigns)
+
+    MrbeekenBackendWeb.SessionsView.render(template, assigns)
+    |> Poison.encode!
+    |> Poison.decode!
   end
 end
