@@ -14,12 +14,6 @@ defmodule JsonApi do
     ErrorView.render(template, assigns) |> encode
   end
 
-  def render_json(view, template, assigns) do
-    assigns = Map.new(assigns)
-
-    view.render(template, assigns) |> encode
-  end
-
   def encode(response) do
     response
     |> Poison.encode!

@@ -1,6 +1,5 @@
 defmodule MrbeekenBackendWeb.ErrorView do
-  use JaSerializer.PhoenixView
-
+  use MrbeekenBackendWeb, :view
   def render("404.json-api", data) do
     %{
       errors: [
@@ -16,6 +15,16 @@ defmodule MrbeekenBackendWeb.ErrorView do
       errors: [
         %{
           title: data[:title]
+        }
+      ]
+    }
+  end
+
+  def render("500.json-api", data) do
+    %{
+      errors: [
+        %{
+          title: "Something has gone wrong"
         }
       ]
     }

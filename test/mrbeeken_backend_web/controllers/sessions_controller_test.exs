@@ -14,12 +14,18 @@ defmodule MrbeekenBackendWeb.SessionsControllerTest do
     {:ok, conn: conn}
   end
 
+  def render_json(template, assigns) do
+    assigns = Map.new(assigns)
+
+    SessionsView.render(template, assigns) |> encode
+  end
+
   test "#create successfully returns a session object", %{conn: conn} do
     user = %User{} |> User.changeset(@user_attrs) |> Repo.insert!
     conn = post conn, sessions_path(conn, :create), @valid_attrs
     session = Session |> Repo.get_by(user_id: user.id)
 
-    assert json_response(conn, 201) == render_json(SessionsView, "show.json-api", session: session)
+    assert json_response(conn, 201) == render_json("show.json-api", %{session: session})
   end
 
   test "#create returns error for bad password", %{conn: conn} do
@@ -27,6 +33,6 @@ defmodule MrbeekenBackendWeb.SessionsControllerTest do
     conn = post conn, sessions_path(conn, :create), @invalid_attrs
     session = Session |> Repo.get_by(user_id: user.id)
 
-    assert json_response(conn, 400) == render_error("400.json-api", title: Errors.password_bad)
+    assert json_response(conn, 400) == render_error("400.json-api", %{title: Errors.password_bad})
   end
 end
