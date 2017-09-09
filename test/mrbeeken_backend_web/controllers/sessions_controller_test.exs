@@ -54,5 +54,6 @@ defmodule MrbeekenBackendWeb.SessionsControllerTest do
 
     assert conn.state == :sent
     assert conn.status == 400
+    render_error("400.json-api", %{title: Errors.session_bad})
   end
 end
