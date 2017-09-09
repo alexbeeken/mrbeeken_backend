@@ -24,4 +24,18 @@ defmodule MrbeekenBackendWeb.SessionsController do
       end
     end
   end
+
+  def delete(conn, params) do
+    session = Repo.get_by(Session, token: params["token"])
+    if session do
+      Repo.delete!(session)
+      conn
+      |> put_status(200)
+      |> render("delete.json-api")
+    else
+      conn
+      |> put_status(400)
+      |> render(MrbeekenBackendWeb.ErrorView, "400.json-api", %{title: Errors.session_bad})
+    end
+  end
 end

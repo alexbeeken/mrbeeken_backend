@@ -35,4 +35,24 @@ defmodule MrbeekenBackendWeb.SessionsControllerTest do
 
     assert json_response(conn, 400) == render_error("400.json-api", %{title: Errors.password_bad})
   end
+
+  test "#delete destroys session record", %{conn: conn} do
+    user = %User{} |> User.changeset(@user_attrs) |> Repo.insert!
+    session = %Session{} |> Session.changeset(%{user_id: user.id}) |> Repo.insert!
+    delete_attrs = %{token: session.token}
+    conn = post conn, sessions_path(conn, :delete), delete_attrs
+
+    assert conn.state == :sent
+    assert conn.status == 200
+  end
+
+  test "#delete returns error if token not found", %{conn: conn} do
+    user = %User{} |> User.changeset(@user_attrs) |> Repo.insert!
+    session = %Session{} |> Session.changeset(%{user_id: user.id}) |> Repo.insert!
+    delete_attrs = %{token: "bad token bad token bad token"}
+    conn = post conn, sessions_path(conn, :delete), delete_attrs
+
+    assert conn.state == :sent
+    assert conn.status == 400
+  end
 end
