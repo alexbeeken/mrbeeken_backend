@@ -5,7 +5,7 @@ defmodule MrbeekenBackendWeb.SessionsControllerTest do
   import JsonApi
 
   @valid_attrs %{username: "test@example.com", password: "123456abc"}
-  @invalid_attrs %{username: "test@example.com", password: "133456abc"}
+  @wrong_password %{username: "test@example.com", password: "133456abc"}
   @user_attrs %{email: "test@example.com", password: "123456abc", password_confirmation: "123456abc"}
 
   setup do
@@ -30,7 +30,7 @@ defmodule MrbeekenBackendWeb.SessionsControllerTest do
 
   test "#create returns error for bad password", %{conn: conn} do
     user = %User{} |> User.changeset(@user_attrs) |> Repo.insert!
-    conn = post conn, sessions_path(conn, :create), @invalid_attrs
+    conn = post conn, sessions_path(conn, :create), @wrong_password
     session = Session |> Repo.get_by(user_id: user.id)
 
     assert json_response(conn, 400) == render_error("400.json-api", %{title: Errors.password_bad})
