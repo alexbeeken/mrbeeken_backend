@@ -1,7 +1,7 @@
 defmodule MrbeekenBackendWeb.SessionsControllerTest do
   use MrbeekenBackendWeb.ConnCase
   alias MrbeekenBackend.Repo
-  alias MrbeekenBackendWeb.{User,Session,Errors,SessionsView}
+  alias MrbeekenBackendWeb.{User,Errors,SessionsView}
   import JsonApi
 
   @valid_attrs %{username: "test@example.com", password: "123456abc"}
@@ -36,13 +36,17 @@ defmodule MrbeekenBackendWeb.SessionsControllerTest do
     assert json_response(conn, 201) == render_json("token.json-api", %{token: token})
   end
 
-  test "#token returns error if password is bad", %{conn: conn} do
+  test "#delete returns ok for good token", %{conn: conn} do
     user = %User{} |> User.changeset(@user_attrs) |> Repo.insert!
-    delete_attrs = %{token: "bad token bad token bad token"}
-    conn = post conn, sessions_path(conn, :delete), delete_attrs
+    conn = post conn, sessions_path(conn, :delete), %{token: "12345"}
 
-    assert conn.state == :sent
-    assert conn.status == 400
-    render_error("400.json-api", %{title: Errors.password_bad})
+    assert json_response(conn, 200) == render_json("delete.json-api", %{})
+  end
+
+  test "#delete returns error for bad token", %{conn: conn} do
+    user = %User{} |> User.changeset(@user_attrs) |> Repo.insert!
+    conn = post conn, sessions_path(conn, :delete), %{token: "123456"}
+
+    assert json_response(conn, 400) == render_error("400.json-api", %{title: Errors.session_bad})
   end
 end
