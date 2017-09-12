@@ -1,10 +1,10 @@
 defmodule Guardian do
   def encode_and_sign(model) do
-    {:ok, "12345", nil}
+    {:ok, "Bearer 12345", nil}
   end
 
   def revoke(token) do
-    if token == "12345" do
+    if token == "Bearer 12345" do
       {:ok, nil}
     else
       {:error, nil}
@@ -12,7 +12,7 @@ defmodule Guardian do
   end
 
   def decode_and_verify(token) do
-    if token == "12345" do
+    if token == "Bearer 12345" do
       {:ok, nil}
     else
       {:error, nil}

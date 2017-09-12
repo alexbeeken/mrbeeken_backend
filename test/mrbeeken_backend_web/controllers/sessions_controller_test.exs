@@ -3,6 +3,7 @@ defmodule MrbeekenBackendWeb.SessionsControllerTest do
   alias MrbeekenBackend.Repo
   alias MrbeekenBackendWeb.{User,Errors,SessionsView}
   import JsonApi
+  import TestCreds
 
   @valid_attrs %{username: "test@example.com", password: "123456abc"}
   @wrong_password %{username: "test@example.com", password: "133456abc"}
@@ -23,7 +24,7 @@ defmodule MrbeekenBackendWeb.SessionsControllerTest do
   test "#token successfully returns a token", %{conn: conn} do
     user = %User{} |> User.changeset(@user_attrs) |> Repo.insert!
     conn = post conn, sessions_path(conn, :token), @valid_attrs
-    token = "12345"
+    token = "Bearer 12345"
 
     assert json_response(conn, 201) == render_json("token.json-api", %{token: token})
   end
@@ -31,21 +32,21 @@ defmodule MrbeekenBackendWeb.SessionsControllerTest do
   test "#token gives correct error for bad password", %{conn: conn} do
     user = %User{} |> User.changeset(@user_attrs) |> Repo.insert!
     conn = post conn, sessions_path(conn, :token), @valid_attrs
-    token = "12345"
+    token = TestCreds.valid_token
 
     assert json_response(conn, 201) == render_json("token.json-api", %{token: token})
   end
 
   test "#delete returns ok for good token", %{conn: conn} do
     user = %User{} |> User.changeset(@user_attrs) |> Repo.insert!
-    conn = post conn, sessions_path(conn, :delete), %{token: "12345"}
+    conn = post conn, sessions_path(conn, :delete), %{token: TestCreds.valid_token}
 
     assert json_response(conn, 200) == render_json("delete.json-api", %{})
   end
 
   test "#delete returns error for bad token", %{conn: conn} do
     user = %User{} |> User.changeset(@user_attrs) |> Repo.insert!
-    conn = post conn, sessions_path(conn, :delete), %{token: "123456"}
+    conn = post conn, sessions_path(conn, :delete), %{token: TestCreds.invalid_token}
 
     assert json_response(conn, 400) == render_error("400.json-api", %{title: Errors.session_bad})
   end

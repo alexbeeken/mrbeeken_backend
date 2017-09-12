@@ -1,6 +1,7 @@
 defmodule JsonApi do
   alias MrbeekenBackendWeb.ErrorView
   import Plug.Conn
+  import TestCreds
 
   def json_api_headers(conn) do
     conn
@@ -10,12 +11,12 @@ defmodule JsonApi do
 
   def valid_token(conn) do
     conn
-      |> put_req_header("bearer", "12345")
+      |> put_req_header("authorization", TestCreds.valid_token)
   end
 
   def invalid_token(conn) do
     conn
-      |> put_req_header("bearer", "123456")
+      |> put_req_header("authorization", TestCreds.invalid_token)
   end
 
   def render_error(template, assigns) do
