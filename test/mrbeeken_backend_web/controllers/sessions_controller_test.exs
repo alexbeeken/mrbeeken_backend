@@ -20,40 +20,29 @@ defmodule MrbeekenBackendWeb.SessionsControllerTest do
     SessionsView.render(template, assigns) |> encode
   end
 
-  test "#create successfully returns a session object", %{conn: conn} do
+  test "#token successfully returns a token", %{conn: conn} do
     user = %User{} |> User.changeset(@user_attrs) |> Repo.insert!
-    conn = post conn, sessions_path(conn, :create), @valid_attrs
-    session = Session |> Repo.get_by(user_id: user.id)
+    conn = post conn, sessions_path(conn, :token), @valid_attrs
+    token = "12345"
 
-    assert json_response(conn, 201) == render_json("show.json-api", %{session: session})
+    assert json_response(conn, 201) == render_json("token.json-api", %{token: token})
   end
 
-  test "#create returns error for bad password", %{conn: conn} do
+  test "#token gives correct error for bad password", %{conn: conn} do
     user = %User{} |> User.changeset(@user_attrs) |> Repo.insert!
-    conn = post conn, sessions_path(conn, :create), @wrong_password
-    session = Session |> Repo.get_by(user_id: user.id)
+    conn = post conn, sessions_path(conn, :token), @valid_attrs
+    token = "12345"
 
-    assert json_response(conn, 400) == render_error("400.json-api", %{title: Errors.password_bad})
+    assert json_response(conn, 201) == render_json("token.json-api", %{token: token})
   end
 
-  test "#delete destroys session record", %{conn: conn} do
+  test "#token returns error if password is bad", %{conn: conn} do
     user = %User{} |> User.changeset(@user_attrs) |> Repo.insert!
-    session = %Session{} |> Session.changeset(%{user_id: user.id}) |> Repo.insert!
-    delete_attrs = %{token: session.token}
-    conn = post conn, sessions_path(conn, :delete), delete_attrs
-
-    assert conn.state == :sent
-    assert conn.status == 200
-  end
-
-  test "#delete returns error if token not found", %{conn: conn} do
-    user = %User{} |> User.changeset(@user_attrs) |> Repo.insert!
-    session = %Session{} |> Session.changeset(%{user_id: user.id}) |> Repo.insert!
     delete_attrs = %{token: "bad token bad token bad token"}
     conn = post conn, sessions_path(conn, :delete), delete_attrs
 
     assert conn.state == :sent
     assert conn.status == 400
-    render_error("400.json-api", %{title: Errors.session_bad})
+    render_error("400.json-api", %{title: Errors.password_bad})
   end
 end

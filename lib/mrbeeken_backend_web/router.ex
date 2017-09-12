@@ -10,9 +10,9 @@ defmodule MrbeekenBackendWeb.Router do
 
   scope "/api/v1", MrbeekenBackendWeb do
     pipe_through :api
-    post "/sessions/delete", SessionsController, :delete
+    post "/sessions/logout", SessionsController, :delete
+    post "/sessions/login", SessionsController, :token
 
-    resources "/sessions", SessionsController, only: [:create]
     resources "/users", UserController, only: [:show]
   end
 end

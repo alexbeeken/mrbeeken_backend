@@ -8,4 +8,10 @@ defmodule MrbeekenBackendWeb.SessionsView do
         status: "ok"
      }
   end
+
+  def render("token.json-api", data) do
+    %{
+        token: data["token"]
+     }
+  end
 end
