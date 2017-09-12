@@ -8,7 +8,6 @@ defmodule MrbeekenBackendWeb.User do
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string
-    has_one :session, Session
 
     timestamps()
   end
