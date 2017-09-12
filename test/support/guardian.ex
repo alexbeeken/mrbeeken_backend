@@ -10,4 +10,12 @@ defmodule Guardian do
       {:error, nil}
     end
   end
+
+  def decode_and_verify(token) do
+    if token == "12345" do
+      {:ok, nil}
+    else
+      {:error, nil}
+    end
+  end
 end

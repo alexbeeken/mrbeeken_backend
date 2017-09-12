@@ -12,6 +12,7 @@ defmodule MrbeekenBackendWeb.Router do
     pipe_through :api
     post "/sessions/logout", SessionsController, :delete
     post "/sessions/login", SessionsController, :token
+    get "/dummy", DummyController, :show
 
     resources "/users", UserController, only: [:show]
   end
