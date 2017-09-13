@@ -33,4 +33,12 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
 
     assert json_response(conn, 400) == render_error("400.json-api", %{title: Errors.session_bad})
   end
+
+  test "#show returns error with no token", %{conn: conn, user: user} do
+    {:ok, jwt, _} = Guardian.encode_and_sign(user)
+    conn = conn
+      |> get dummy_path(conn, :show)
+
+    assert json_response(conn, 400) == render_error("400.json-api", %{title: Errors.session_bad})
+  end
 end
