@@ -18,7 +18,7 @@ defmodule MrbeekenBackendWeb.UsersControllerTest do
     UserView.render(template, assigns) |> encode
   end
 
-  test "#show returns a user object", %{conn: conn, user: user} do
+  test "#show returns the current user object", %{conn: conn, user: user} do
     conn = get conn, user_path(conn, :show, user.id)
 
     assert json_response(conn, 200) == render_json("show.json-api", %{user: user})
