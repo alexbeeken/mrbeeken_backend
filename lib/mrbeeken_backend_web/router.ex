@@ -8,12 +8,21 @@ defmodule MrbeekenBackendWeb.Router do
     plug JaSerializer.Deserializer
   end
 
+  pipeline :auth do
+    plug MrbeekenBackendWeb.Authentication, repo: MrbeekenBackend.Repo
+  end
+
+  scope "/api/v1", MrbeekenBackendWeb do
+    pipe_through [:api, :auth]
+
+    get "/dummy", DummyController, :show
+    resources "/users", UserController, only: [:show]
+  end
+
   scope "/api/v1", MrbeekenBackendWeb do
     pipe_through :api
-    post "/sessions/logout", SessionsController, :delete
-    post "/sessions/login", SessionsController, :token
-    get "/dummy", DummyController, :show
 
-    resources "/users", UserController, only: [:show]
+    post "/sessions/logout", SessionsController, :logout
+    post "/sessions/login", SessionsController, :login
   end
 end

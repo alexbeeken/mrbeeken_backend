@@ -1,7 +1,7 @@
-defmodule JsonApi do
+defmodule MrbeekenBackendWeb.JsonApi do
   alias MrbeekenBackendWeb.ErrorView
   import Plug.Conn
-  import TestCreds
+  import MrbeekenBackendWeb.TestCreds
 
   def json_api_headers(conn) do
     conn

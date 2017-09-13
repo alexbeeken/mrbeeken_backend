@@ -1,28 +1,19 @@
+require IEx
+
 defmodule MrbeekenBackendWeb.DummyController do
   use MrbeekenBackendWeb, :controller
 
-  def find_token([ h | t ]) do
-    case h do
-      {"authorization", x} ->
-        x
-      {_, _} ->
-        find_token(t)
-      _ ->
-        nil
-    end
-  end
+  alias MrbeekenBackendWeb.{ErrorView, Errors}
 
   def show(conn, _params) do
-    token = find_token(conn.req_headers)
-    case Guardian.decode_and_verify(token) do
-      {:ok, _claims} ->
-        conn
-        |> put_status(201)
-        |> render("show.json-api", %{})
-      {:error, _claims} ->
-        conn
-        |> put_status(400)
-        |> render("error.json-api", %{})
+    if conn.assigns[:current_user] do
+      conn
+      |> put_status(200)
+      |> render("show.json-api")
+    else
+      conn
+      |> put_status(400)
+      |> render(ErrorView, "400.json-api", %{title: Errors.session_bad})
     end
   end
 end

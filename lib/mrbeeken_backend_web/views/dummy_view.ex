@@ -7,7 +7,7 @@ defmodule MrbeekenBackendWeb.DummyView do
      }
   end
 
-  def render("error.json-api", data) do
+  def render("error.json-api", _data) do
     %{
         status: "error"
      }
