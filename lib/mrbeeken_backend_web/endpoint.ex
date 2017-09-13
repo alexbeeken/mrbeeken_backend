@@ -37,6 +37,8 @@ defmodule MrbeekenBackendWeb.Endpoint do
     store: :cookie,
     key: "_mrbeeken_backend_key",
     signing_salt: "6wu0KIKB"
+    
+  plug CORSPlug
 
   plug MrbeekenBackendWeb.Router
 

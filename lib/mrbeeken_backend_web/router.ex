@@ -16,7 +16,7 @@ defmodule MrbeekenBackendWeb.Router do
     pipe_through [:api, :auth]
 
     get "/dummy", DummyController, :show
-    resources "/users", UserController, only: [:show]
+    resources "/users", UserController, only: [:show, :index]
   end
 
   scope "/api/v1", MrbeekenBackendWeb do
@@ -24,5 +24,6 @@ defmodule MrbeekenBackendWeb.Router do
 
     post "/sessions/logout", SessionsController, :logout
     post "/sessions/login", SessionsController, :login
+    resources "/users", UserController, only: [:create]
   end
 end
