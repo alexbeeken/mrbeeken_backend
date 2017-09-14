@@ -6,6 +6,6 @@ defmodule MrbeekenBackendWeb.ErrorViewTest do
 
   test "renders 404.json-api" do
     assert render_to_string(MrbeekenBackendWeb.ErrorView, "404.json-api", []) ==
-           "{\"errors\":[{\"title\":\"route not found\"}]}"
+           "{\"errors\":[{\"title\":null}]}"
   end
 end

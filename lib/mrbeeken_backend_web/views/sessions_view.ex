@@ -1,8 +1,6 @@
 require IEx
 defmodule MrbeekenBackendWeb.SessionsView do
   use MrbeekenBackendWeb, :view
-  use JaSerializer.PhoenixView
-  attributes [:token]
 
   def render("logout.json-api", _data) do
     %{

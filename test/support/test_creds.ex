@@ -5,10 +5,10 @@ defmodule MrbeekenBackendWeb.TestCreds do
   def user_attrs, do: @user_attrs
 
   def valid_login_params(user \\ %User{email: "test@example.com", password: "123456abc"}) do
-    %{username: user.email, password: user.password}
+    %{email: user.email, password: user.password}
   end
 
   def bad_password_login_params(user \\ %User{email: "test@example.com", password: "123456abc"}) do
-    %{username: user.email, password: "#{user.password}MESSITALLUP"}
+    %{email: user.email, password: "#{user.password}MESSITALLUP"}
   end
 end
