@@ -21,6 +21,7 @@ defmodule MrbeekenBackendWeb.Router do
 
     get "/dummy", DummyController, :show
     resources "/users", UserController, only: [:show, :index]
+    get "/me", UserController, :me
   end
 
   scope "/api/v1", MrbeekenBackendWeb do

@@ -23,4 +23,10 @@ defmodule MrbeekenBackendWeb.UsersControllerTest do
 
     assert json_response(conn, 200) == render_json("show.json-api", %{user: user})
   end
+
+  test "#me returns the current user object from token", %{conn: conn, user: user} do
+    conn = get conn, user_path(conn, :me)
+
+    assert json_response(conn, 200) == render_json("show.json-api", %{user: user})
+  end
 end
