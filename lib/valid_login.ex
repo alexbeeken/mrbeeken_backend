@@ -9,7 +9,7 @@ defmodule MrbeekenBackendWeb.ValidLogin do
   end
 
   def call(conn, opts) do
-    if conn.params["user"] && conn.params["password"] do
+    if conn.params["email"] && conn.params["password"] do
       conn
     else
       render_error(conn)

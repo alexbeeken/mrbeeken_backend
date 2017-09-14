@@ -6,22 +6,27 @@ defmodule MrbeekenBackendWeb.SessionsController do
 
   def login(conn, params) do
     user = Repo.get_by(User, email: params["email"])
-    unless Comeonin.Bcrypt.checkpw(params["password"], user.password_hash) do
-      conn
-      |> put_status(400)
-      |> render(MrbeekenBackendWeb.ErrorView, "400.json-api", %{title: Errors.password_bad})
-    else
-      case Guardian.encode_and_sign(user) do
-       {:ok, jwt, _} ->
-         conn
-         |> put_status(201)
-         |> render("login.json-api", token: jwt)
-       {:error, _, _} ->
-         conn
-         |> put_status(400)
-         |> render(MrbeekenBackendWeb.ErrorView, "400.json-api", %{title: Errors.password_bad})
-         |> Poison.encode!
+    if user do
+      unless Comeonin.Bcrypt.checkpw(params["password"], user.password_hash) do
+        conn
+        |> put_status(400)
+        |> render(MrbeekenBackendWeb.ErrorView, "400.json-api", %{title: Errors.password_bad})
+      else
+        case Guardian.encode_and_sign(user) do
+         {:ok, jwt, _} ->
+           conn
+           |> put_status(201)
+           |> render("login.json-api", token: jwt)
+         {:error, _, _} ->
+           conn
+           |> put_status(400)
+           |> render(MrbeekenBackendWeb.ErrorView, "400.json-api", %{title: Errors.password_bad})
+        end
       end
+    else
+      conn
+      |> put_status(404)
+      |> render(MrbeekenBackendWeb.ErrorView, "404.json-api", %{title: Errors.user_not_found})
     end
   end
 

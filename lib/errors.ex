@@ -10,4 +10,7 @@ defmodule MrbeekenBackendWeb.Errors do
 
   @missing_param "Missing a required field"
   def missing_param, do: @missing_param
+
+  @user_not_found "Email does not exist"
+  def user_not_found, do: @user_not_found
 end
