@@ -4,6 +4,6 @@ defmodule MrbeekenBackendWeb.UserView do
 
   def render("current.json-api", data) do
     current_user = data[:data]
-    Poison.encode!(%{data: %{attributes: %{email: current_user.email}, type: "current-user"}})
+    %{data: %{attributes: %{email: current_user.email}, type: "current-user", id: current_user.id}}
   end
 end
