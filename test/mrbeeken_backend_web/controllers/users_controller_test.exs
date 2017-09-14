@@ -27,6 +27,8 @@ defmodule MrbeekenBackendWeb.UsersControllerTest do
   test "#me returns the current user object from token", %{conn: conn, user: user} do
     conn = get conn, user_path(conn, :me)
 
-    assert json_response(conn, 200) == render_json("show.json-api", %{user: user})
+    response = Poison.decode!(json_response(conn, 200))
+    assert response["data"]["type"] == "current-user"
+    assert response["data"]["attributes"]["email"] == user.email
   end
 end
