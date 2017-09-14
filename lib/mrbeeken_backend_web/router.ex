@@ -12,6 +12,10 @@ defmodule MrbeekenBackendWeb.Router do
     plug MrbeekenBackendWeb.Authentication, repo: MrbeekenBackend.Repo
   end
 
+  pipeline :valid_login do
+    plug MrbeekenBackendWeb.ValidLogin
+  end
+
   scope "/api/v1", MrbeekenBackendWeb do
     pipe_through [:api, :auth]
 
@@ -23,7 +27,12 @@ defmodule MrbeekenBackendWeb.Router do
     pipe_through :api
 
     post "/sessions/logout", SessionsController, :logout
-    post "/sessions/login", SessionsController, :login
     resources "/users", UserController, only: [:create]
+  end
+
+  scope "/api/v1", MrbeekenBackendWeb do
+    pipe_through [:api, :valid_login]
+
+    post "/sessions/login", SessionsController, :login
   end
 end

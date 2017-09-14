@@ -4,4 +4,10 @@ defmodule MrbeekenBackendWeb.Errors do
 
   @session_bad "Session not found"
   def session_bad, do: @session_bad
+
+  @unnacceptable_type "Accept header needs to have correct type"
+  def unnacceptable_type, do: @unnacceptable_type
+
+  @missing_param "Missing a required field"
+  def missing_param, do: @missing_param
 end

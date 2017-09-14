@@ -5,7 +5,7 @@ defmodule MrbeekenBackendWeb.SessionsController do
   import MrbeekenBackendWeb.Authentication
 
   def login(conn, params) do
-    user = Repo.get_by(User, email: params["username"])
+    user = Repo.get_by(User, email: params["email"])
     unless Comeonin.Bcrypt.checkpw(params["password"], user.password_hash) do
       conn
       |> put_status(400)

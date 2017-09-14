@@ -3,6 +3,8 @@ defmodule MrbeekenBackendWeb.Endpoint do
 
   socket "/socket", MrbeekenBackendWeb.UserSocket
 
+  plug CORSPlug
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest
@@ -37,8 +39,6 @@ defmodule MrbeekenBackendWeb.Endpoint do
     store: :cookie,
     key: "_mrbeeken_backend_key",
     signing_salt: "6wu0KIKB"
-    
-  plug CORSPlug
 
   plug MrbeekenBackendWeb.Router
 

@@ -30,7 +30,7 @@ config :mrbeeken_backend, MrbeekenBackendWeb.Repo,
   hostname: "localhost",
   port: "5432"
 
-config :plug, :mimes, %{
+config :mime, :types, %{
   "application/vnd.api+json" => ["json-api"]
 }
 
