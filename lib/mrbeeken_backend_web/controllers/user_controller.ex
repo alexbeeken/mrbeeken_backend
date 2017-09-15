@@ -8,6 +8,6 @@ defmodule MrbeekenBackendWeb.UserController do
     current_user = conn.assigns.current_user
     conn
     |> put_status(200)
-    |> render(UserView, "current.json-api", data: current_user)
+    |> render("show.json-api", data: current_user)
   end
 end

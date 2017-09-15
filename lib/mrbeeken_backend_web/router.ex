@@ -20,8 +20,8 @@ defmodule MrbeekenBackendWeb.Router do
     pipe_through [:api, :auth]
 
     get "/dummy", DummyController, :show
+    get "users/me", UserController, :me
     resources "/users", UserController, only: [:show, :index]
-    get "/me", UserController, :me
   end
 
   scope "/api/v1", MrbeekenBackendWeb do

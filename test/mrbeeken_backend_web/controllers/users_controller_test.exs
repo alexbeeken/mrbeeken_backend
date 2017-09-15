@@ -28,8 +28,8 @@ defmodule MrbeekenBackendWeb.UsersControllerTest do
     conn = get conn, user_path(conn, :me)
 
     response = json_response(conn, 200)
-    assert response["data"]["type"] == "current-user"
-    assert response["data"]["id"] == user.id
+    assert response["data"]["type"] == "user"
+    assert response["data"]["id"] == Integer.to_string(user.id)
     assert response["data"]["attributes"]["email"] == user.email
   end
 end
