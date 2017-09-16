@@ -7,7 +7,7 @@ defmodule MrbeekenBackendWeb.DummyController do
     if conn.assigns[:current_user] do
       conn
       |> put_status(200)
-      |> render("show.json-api")
+      |> render("success.json-api")
     else
       conn
       |> put_status(400)
