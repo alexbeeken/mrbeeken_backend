@@ -22,7 +22,7 @@ defmodule MrbeekenBackendWeb.JsonApi do
   def render_error(template, assigns) do
     assigns = Map.new(assigns)
 
-    ErrorView.render(template, assigns) |> encode
+    encode(ErrorView.render(template, assigns))
   end
 
   def encode(response) do
