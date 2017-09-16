@@ -6,7 +6,8 @@ defmodule MrbeekenBackendWeb.UsersControllerTest do
 
   setup do
     user = insert(:user)
-    conn = build_conn()
+    conn = 
+      build_conn()
       |> json_api_headers
       |> login(user)
     {:ok, conn: conn, user: user}
