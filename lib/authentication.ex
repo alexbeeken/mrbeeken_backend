@@ -20,9 +20,8 @@ defmodule MrbeekenBackendWeb.Authentication do
           render_error(conn)
         {:ok, claims} ->
           "User:" <> user_id = claims["sub"]
-          user = User |> Repo.get(user_id)
-          conn
-          |> assign(:current_user, user)
+          user = Repo.get(User, user_id)
+          assign(conn, :current_user, user)
       end
     end
   end
