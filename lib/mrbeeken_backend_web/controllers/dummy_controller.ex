@@ -1,5 +1,3 @@
-require IEx
-
 defmodule MrbeekenBackendWeb.DummyController do
   use MrbeekenBackendWeb, :controller
 
