@@ -10,13 +10,11 @@ defmodule MrbeekenBackendWeb.JsonApi do
   end
 
   def valid_token(conn) do
-    conn
-    |> put_req_header("authorization", TestCreds.valid_token)
+    put_req_header(conn, "authorization", TestCreds.valid_token)
   end
 
   def invalid_token(conn) do
-    conn
-    |> put_req_header("authorization", TestCreds.invalid_token)
+    put_req_header(conn, "authorization", TestCreds.invalid_token)
   end
 
   def render_error(template, assigns) do
