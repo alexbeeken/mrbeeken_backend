@@ -18,26 +18,27 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
 
   test "#show returns ok for successful authentication", %{conn: conn, user: user} do
     {:ok, jwt, _} = Guardian.encode_and_sign(user)
-    conn = conn
+    conn = 
+      conn
       |> put_req_header("authorization", "Bearer #{jwt}")
-      |> get dummy_path(conn, :show)
+      |> get dummy_path(:show)
 
     assert json_response(conn, 200) == render_json("show.json-api")
   end
 
   test "#show returns error with invalid token", %{conn: conn, user: user} do
     {:ok, jwt, _} = Guardian.encode_and_sign(user)
-    conn = conn
+    conn = 
+      conn
       |> put_req_header("authorization", "Bearer #{jwt}MESSITUP")
-      |> get dummy_path(conn, :show)
+      |> get dummy_path(:show)
 
     assert json_response(conn, 400) == render_error("400.json-api", %{title: Errors.session_bad})
   end
 
   test "#show returns error with no token", %{conn: conn, user: user} do
     {:ok, jwt, _} = Guardian.encode_and_sign(user)
-    conn = conn
-      |> get dummy_path(conn, :show)
+    conn = get dummy_path(conn, :show)
 
     assert json_response(conn, 400) == render_error("400.json-api", %{title: Errors.session_bad})
   end
