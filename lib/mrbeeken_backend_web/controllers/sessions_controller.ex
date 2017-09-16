@@ -8,15 +8,15 @@ defmodule MrbeekenBackendWeb.SessionsController do
     user = Repo.get_by(User, email: params["email"])
     if user do
       if Comeonin.Bcrypt.checkpw(params["password"], user.password_hash) do
-      case Guardian.encode_and_sign(user) do
-         {:ok, jwt, _} ->
-           conn
-           |> put_status(201)
-           |> render("login.json-api", token: jwt)
-         {:error, _, _} ->
-           conn
-           |> put_status(400)
-           |> render(MrbeekenBackendWeb.ErrorView, "400.json-api", %{title: Errors.password_bad})
+        case Guardian.encode_and_sign(user) do
+          {:ok, jwt, _} ->
+            conn
+            |> put_status(201)
+            |> render("login.json-api", token: jwt)
+          {:error, _, _} ->
+            conn
+            |> put_status(400)
+            |> render(MrbeekenBackendWeb.ErrorView, "400.json-api", %{title: Errors.password_bad})
         end
       else
         conn
