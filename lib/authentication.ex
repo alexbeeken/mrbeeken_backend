@@ -30,14 +30,12 @@ defmodule MrbeekenBackendWeb.Authentication do
     case h do
       {"authorization", x} ->
         x
-      {_, _} ->
-        if t == [] do
+      true ->
+        if Enum.empty?(t) do
           nil
         else
           find_token(t)
         end
-      _ ->
-        nil
     end
   end
 
