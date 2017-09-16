@@ -1,8 +1,10 @@
 defmodule MrbeekenBackendWeb.UsersControllerTest do
   use MrbeekenBackendWeb.ConnCase
+  
+  import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper, TestCreds}
+  
   alias MrbeekenBackend.Repo
   alias MrbeekenBackendWeb.{User, UserView}
-  import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper, TestCreds}
 
   setup do
     user = insert(:user)
