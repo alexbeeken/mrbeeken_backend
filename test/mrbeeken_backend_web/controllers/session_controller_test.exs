@@ -1,7 +1,7 @@
-defmodule MrbeekenBackendWeb.SessionsControllerTest do
+defmodule MrbeekenBackendWeb.SessionControllerTest do
   use MrbeekenBackendWeb.ConnCase
   alias MrbeekenBackend.Repo
-  alias MrbeekenBackendWeb.{User,Errors,SessionsView}
+  alias MrbeekenBackendWeb.{User,Errors,SessionView}
   import MrbeekenBackendWeb.{JsonApi, TestCreds, Factory}
 
   setup do
@@ -14,7 +14,7 @@ defmodule MrbeekenBackendWeb.SessionsControllerTest do
   def render_json(template, assigns) do
     assigns = Map.new(assigns)
 
-    SessionsView.render(template, assigns) |> encode
+    SessionView.render(template, assigns) |> encode
   end
 
   test "#login successfully returns a token", %{conn: conn, user: user} do
