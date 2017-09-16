@@ -1,8 +1,8 @@
 defmodule MrbeekenBackendWeb.SessionController do
   use MrbeekenBackendWeb, :controller
+  import MrbeekenBackendWeb.Authentication
   alias MrbeekenBackend.Repo
   alias MrbeekenBackendWeb.{User,Errors,ErrorView}
-  import MrbeekenBackendWeb.Authentication
 
   def login(conn, params) do
     user = Repo.get_by(User, email: params["email"])
