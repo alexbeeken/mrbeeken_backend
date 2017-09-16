@@ -1,5 +1,4 @@
-require IEx
-defmodule MrbeekenBackendWeb.SessionsView do
+defmodule MrbeekenBackendWeb.SessionView do
   use MrbeekenBackendWeb, :view
 
   def render("logout.json-api", _data) do
