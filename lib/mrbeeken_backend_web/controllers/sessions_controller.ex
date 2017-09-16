@@ -16,17 +16,17 @@ defmodule MrbeekenBackendWeb.SessionsController do
           {:error, _, _} ->
             conn
             |> put_status(400)
-            |> render(MrbeekenBackendWeb.ErrorView, "400.json-api", %{title: Errors.password_bad})
+            |> render(ErrorView, "400.json-api", %{title: Errors.password_bad})
         end
       else
         conn
         |> put_status(400)
-        |> render(MrbeekenBackendWeb.ErrorView, "400.json-api", %{title: Errors.password_bad})
+        |> render(ErrorView, "400.json-api", %{title: Errors.password_bad})
       end
     else
       conn
       |> put_status(404)
-      |> render(MrbeekenBackendWeb.ErrorView, "404.json-api", %{title: Errors.user_not_found})
+      |> render(ErrorView, "404.json-api", %{title: Errors.user_not_found})
     end
   end
 
@@ -40,7 +40,7 @@ defmodule MrbeekenBackendWeb.SessionsController do
       :error ->
         conn
         |> put_status(400)
-        |> render(MrbeekenBackendWeb.ErrorView, "400.json-api", %{title: Errors.session_bad})
+        |> render(ErrorView, "400.json-api", %{title: Errors.session_bad})
     end
   end
 end
