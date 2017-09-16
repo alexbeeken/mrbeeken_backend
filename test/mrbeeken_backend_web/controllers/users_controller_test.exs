@@ -2,7 +2,7 @@ defmodule MrbeekenBackendWeb.UsersControllerTest do
   use MrbeekenBackendWeb.ConnCase
   alias MrbeekenBackend.Repo
   alias MrbeekenBackendWeb.{User, UserView}
-  import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper}
+  import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper, TestCreds}
 
   setup do
     user = insert(:user)
@@ -16,6 +16,15 @@ defmodule MrbeekenBackendWeb.UsersControllerTest do
     assigns = Map.new(assigns)
 
     UserView.render(template, assigns) |> encode
+  end
+
+  test "#create returns success when successful", %{conn: conn, user: user} do
+    conn = get conn, user_path(conn, :create, valid_registration_params(user))
+
+    response = List.first(json_response(conn, 200)["data"])
+    assert response["type"] == "user"
+    assert response["id"] == Integer.to_string(user.id)
+    assert response["attributes"]["email"] == user.email
   end
 
   test "#show returns the current user object", %{conn: conn, user: user} do

@@ -8,6 +8,10 @@ defmodule MrbeekenBackendWeb.TestCreds do
     %{email: user.email, password: user.password}
   end
 
+  def valid_registration_params(user \\ %User{email: "test@example.com", password: "123456abc",  password_hash: "123456abc"}) do
+    %{email: user.email, password: user.password, password_hash: user.password_hash}
+  end
+
   def bad_password_login_params(user \\ %User{email: "test@example.com", password: "123456abc"}) do
     %{email: user.email, password: "#{user.password}MESSITALLUP"}
   end

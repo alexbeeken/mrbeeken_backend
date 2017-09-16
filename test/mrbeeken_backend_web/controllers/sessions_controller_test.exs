@@ -1,13 +1,8 @@
-require IEx
 defmodule MrbeekenBackendWeb.SessionsControllerTest do
   use MrbeekenBackendWeb.ConnCase
   alias MrbeekenBackend.Repo
   alias MrbeekenBackendWeb.{User,Errors,SessionsView}
   import MrbeekenBackendWeb.{JsonApi, TestCreds, Factory}
-
-  @valid_attrs %{username: "test@example.com", password: "123456abc"}
-  @wrong_password %{username: "test@example.com", password: "133456abc"}
-  @user_attrs %{email: "test@example.com", password: "123456abc", password_confirmation: "123456abc"}
 
   setup do
     user = insert(:user)
