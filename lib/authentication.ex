@@ -11,10 +11,8 @@ defmodule MrbeekenBackendWeb.Authentication do
 
   def call(conn, opts) do
     token = find_token(conn.req_headers)
-    unless token do
-      render_error(conn)
-    else
-      "Bearer " <> token = token
+    if token do
+       "Bearer " <> token = token
       case Guardian.decode_and_verify(token) do
         {:error, _claims} ->
           render_error(conn)
@@ -23,6 +21,8 @@ defmodule MrbeekenBackendWeb.Authentication do
           user = Repo.get(User, user_id)
           assign(conn, :current_user, user)
       end
+    else
+      render_error(conn)
     end
   end
 
