@@ -1,5 +1,6 @@
 defmodule MrbeekenBackendWeb.Factory do
   use ExMachina.Ecto, repo: MrbeekenBackend.Repo
+  
   alias MrbeekenBackendWeb.User
 
   def user_factory do
