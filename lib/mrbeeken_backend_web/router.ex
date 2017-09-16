@@ -9,7 +9,7 @@ defmodule MrbeekenBackendWeb.Router do
   end
 
   pipeline :auth do
-    plug MrbeekenBackendWeb.Authentication, repo: MrbeekenBackend.Repo
+    plug MrbeekenBackendWeb.Authentication
   end
 
   pipeline :valid_login do
