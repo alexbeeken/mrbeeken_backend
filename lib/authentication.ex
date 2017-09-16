@@ -12,7 +12,7 @@ defmodule MrbeekenBackendWeb.Authentication do
   def call(conn, opts) do
     token = find_token(conn.req_headers)
     if token do
-       "Bearer " <> token = token
+      "Bearer " <> token = token
       case Guardian.decode_and_verify(token) do
         {:error, _claims} ->
           render_error(conn)
