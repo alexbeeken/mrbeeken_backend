@@ -41,4 +41,18 @@ defmodule MrbeekenBackendWeb.UsersControllerTest do
     assert response["data"]["id"] == Integer.to_string(user.id)
     assert response["data"]["attributes"]["email"] == user.email
   end
+
+  test "#unique returns true in meta if email available", %{conn: conn, user: user} do
+    conn = get conn, user_path(conn, :unique, "buttermilk555@gmail.com")
+
+    response = json_response(conn, 200)
+    assert response["meta"]["unique"] == true
+  end
+
+  test "#unique returns false in meta if email unavailable", %{conn: conn, user: user} do
+    conn = get conn, user_path(conn, :unique, user.email)
+
+    response = json_response(conn, 200)
+    assert response["meta"]["unique"] == false
+  end
 end

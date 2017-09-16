@@ -27,6 +27,7 @@ defmodule MrbeekenBackendWeb.Router do
   scope "/api/v1", MrbeekenBackendWeb do
     pipe_through :api
 
+    get "users/unique/:email", UserController, :unique
     post "/sessions/logout", SessionsController, :logout
     resources "/users", UserController, only: [:create]
   end
