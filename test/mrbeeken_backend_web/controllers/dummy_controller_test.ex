@@ -1,8 +1,10 @@
 defmodule MrbeekenBackendWeb.DummyControllerTest do
   use MrbeekenBackendWeb.ConnCase
+  
+  import MrbeekenBackendWeb.{JsonApi, LoginHelper, TestCreds, Factory}
+  
   alias MrbeekenBackend.{Repo}
   alias MrbeekenBackendWeb.{DummyView, User, Errors}
-  import MrbeekenBackendWeb.{JsonApi, LoginHelper, TestCreds, Factory}
 
   setup do
     user = insert(:user)
