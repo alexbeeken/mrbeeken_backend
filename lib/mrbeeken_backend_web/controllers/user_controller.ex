@@ -1,9 +1,11 @@
 defmodule MrbeekenBackendWeb.UserController do
   use MrbeekenBackendWeb, :controller
   use JaResource
-  plug JaResource
+  
   alias MrbeekenBackendWeb.{User}
   alias MrbeekenBackend.Repo
+  
+  plug JaResource
 
   def me(conn, params) do
     current_user = conn.assigns.current_user
