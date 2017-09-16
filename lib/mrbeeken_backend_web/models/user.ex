@@ -1,7 +1,6 @@
 defmodule MrbeekenBackendWeb.User do
   use Ecto.Schema
   import Ecto.Changeset
-  alias MrbeekenBackendWeb.Session
 
   schema "users" do
     field :email, :string
