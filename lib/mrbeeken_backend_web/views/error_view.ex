@@ -1,5 +1,6 @@
 defmodule MrbeekenBackendWeb.ErrorView do
   use MrbeekenBackendWeb, :view
+  
   alias MrbeekenBackendWeb.Errors
 
   def render("400.json-api", data) do
