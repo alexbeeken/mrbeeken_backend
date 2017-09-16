@@ -6,7 +6,8 @@ defmodule MrbeekenBackendWeb.SessionControllerTest do
 
   setup do
     user = insert(:user)
-    conn = build_conn()
+    conn = 
+      build_conn()
       |> json_api_headers
     {:ok, conn: conn, user: user}
   end
@@ -32,7 +33,7 @@ defmodule MrbeekenBackendWeb.SessionControllerTest do
   test "#logout returns ok for good token", %{conn: conn, user: user} do
     {:ok, jwt, _} = Guardian.encode_and_sign(user)
 
-    conn = conn |> put_req_header("authorization", "Bearer #{jwt}")
+    conn = put_req_header(conn, "authorization", "Bearer #{jwt}")
     conn = post conn, sessions_path(conn, :logout)
 
     assert json_response(conn, 200) == render_json("logout.json-api", %{})
@@ -41,7 +42,7 @@ defmodule MrbeekenBackendWeb.SessionControllerTest do
   test "#logout returns error for bad token", %{conn: conn, user: user} do
     {:ok, jwt, _} = Guardian.encode_and_sign(user)
 
-    conn = conn |> put_req_header("authorization", "Bearer #{jwt}MESSITUP")
+    conn = put_req_header(conn, "authorization", "Bearer #{jwt}MESSITUP")
     conn = post conn, sessions_path(conn, :logout)
 
     assert json_response(conn, 200) == render_json("logout.json-api", %{})
