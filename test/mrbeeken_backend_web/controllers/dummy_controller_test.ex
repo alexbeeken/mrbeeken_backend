@@ -1,4 +1,3 @@
-require IEx
 defmodule MrbeekenBackendWeb.DummyControllerTest do
   use MrbeekenBackendWeb.ConnCase
   alias MrbeekenBackend.{Repo}
@@ -21,7 +20,7 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
     conn = 
       conn
       |> put_req_header("authorization", "Bearer #{jwt}")
-      |> get dummy_path(:show)
+      |> get dummy_path(conn, :show)
 
     assert json_response(conn, 200) == render_json("show.json-api")
   end
@@ -31,7 +30,7 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
     conn = 
       conn
       |> put_req_header("authorization", "Bearer #{jwt}MESSITUP")
-      |> get dummy_path(:show)
+      |> get dummy_path(conn, :show)
 
     assert json_response(conn, 400) == render_error("400.json-api", %{title: Errors.session_bad})
   end
