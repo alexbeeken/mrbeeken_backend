@@ -2,7 +2,7 @@ defmodule MrbeekenBackendWeb.UserController do
   use MrbeekenBackendWeb, :controller
   use JaResource
   plug JaResource
-  alias MrbeekenBackendWeb.{UserView, User}
+  alias MrbeekenBackendWeb.{User}
   alias MrbeekenBackend.Repo
 
   def me(conn, params) do
