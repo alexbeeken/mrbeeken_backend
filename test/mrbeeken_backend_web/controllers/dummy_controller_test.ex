@@ -12,7 +12,7 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
   end
 
   def render_json(template) do
-    DummyView.render(template, %{}) |> encode
+    encode(DummyView.render(template, %{}))
   end
 
   test "#show returns ok for successful authentication", %{conn: conn, user: user} do
