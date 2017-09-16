@@ -28,13 +28,13 @@ defmodule MrbeekenBackendWeb.Router do
     pipe_through :api
 
     get "users/unique/:email", UserController, :unique
-    post "/sessions/logout", SessionsController, :logout
+    post "/session/logout", SessionController, :logout
     resources "/users", UserController, only: [:create]
   end
 
   scope "/api/v1", MrbeekenBackendWeb do
     pipe_through [:api, :valid_login]
 
-    post "/sessions/login", SessionsController, :login
+    post "/session/login", SessionController, :login
   end
 end
