@@ -1,4 +1,4 @@
-defmodule MrbeekenBackendWeb.SessionsController do
+defmodule MrbeekenBackendWeb.SessionController do
   use MrbeekenBackendWeb, :controller
   alias MrbeekenBackend.Repo
   alias MrbeekenBackendWeb.{User,Errors,ErrorView}
