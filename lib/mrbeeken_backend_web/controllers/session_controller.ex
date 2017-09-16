@@ -1,6 +1,8 @@
 defmodule MrbeekenBackendWeb.SessionController do
   use MrbeekenBackendWeb, :controller
+  
   import MrbeekenBackendWeb.Authentication
+  
   alias MrbeekenBackend.Repo
   alias MrbeekenBackendWeb.{User,Errors,ErrorView}
 
