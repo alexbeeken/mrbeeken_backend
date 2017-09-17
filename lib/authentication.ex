@@ -29,7 +29,7 @@ defmodule MrbeekenBackendWeb.Authentication do
         end
       {:error, _} ->
         {:error, nil}
-      end
+    end
   end
 
   def find_token([ h | t ] \\ [ nil | nil]) do
