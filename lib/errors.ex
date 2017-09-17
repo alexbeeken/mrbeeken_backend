@@ -2,14 +2,14 @@ defmodule MrbeekenBackendWeb.Errors do
   @password_bad "Password is incorrect"
   def password_bad, do: @password_bad
   
-  @session_bad "authorization header not found"
-  def session_bad, do: @token_missing
+  @token_missing "authorization header not found"
+  def token_missing, do: @token_missing
   
-  @session_bad "authorization token incorrectly formatted"
-  def session_bad, do: @token_format_bad
+  @token_format_bad "authorization token incorrectly formatted"
+  def token_format_bad, do: @token_format_bad
   
-   @session_bad "authorization token invalid"
-  def session_bad, do: @token_invalid
+  @token_invalid "authorization token invalid"
+  def token_invalid, do: @token_invalid
 
   @unnacceptable_type "Accept header needs to have correct type"
   def unnacceptable_type, do: @unnacceptable_type
