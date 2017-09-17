@@ -11,9 +11,9 @@ defmodule MrbeekenBackendWeb.Authentication do
 
   def call(conn, opts) do
     conn.req_headers
-    |> find_token
-    |> parse_token
-    |> verify_token
+    |> find_token()
+    |> parse_token()
+    |> verify_token()
   end
   
   def verify_token(parsed_token)
