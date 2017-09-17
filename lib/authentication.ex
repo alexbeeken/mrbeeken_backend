@@ -29,12 +29,12 @@ defmodule MrbeekenBackendWeb.Authentication do
 
   def find_token([ h | t ] \\ [ nil | nil]) do
     case h do
-      {"authorization", x} ->
-        x
+      {"authorization", token} ->
+        {:ok, token}
       {_, _} ->
         if Enum.empty?(t) do
           render_error(conn)
-          token
+          {:error, nil}
         else
           find_token(t)
         end
@@ -42,8 +42,13 @@ defmodule MrbeekenBackendWeb.Authentication do
   end
   
   def parse_token(raw_token) do
-    "Bearer " <> raw_token = raw_token
-    raw_token
+    case raw_token do
+      {:ok, raw_token} ->
+        "Bearer " <> raw_token = raw_token
+        raw_token
+      {:error, _} ->
+        {:error, nil}
+      end
   end
 
   def render_error(conn) do
