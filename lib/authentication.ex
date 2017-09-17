@@ -21,7 +21,7 @@ defmodule MrbeekenBackendWeb.Authentication do
       {:ok, parsed_token} -> 
         case Guardian.decode_and_verify(parsed_token) do
           {:error, _claims} ->
-            render_error(conn)
+            render_error(conn, "token encoding invalid")
           {:ok, claims} ->
             "User:" <> user_id = claims["sub"]
             user = Repo.get(User, user_id)
@@ -39,7 +39,7 @@ defmodule MrbeekenBackendWeb.Authentication do
       {_, _} ->
         if Enum.empty?(t) do
           render_error(conn)
-          {:error, nil}
+          {:error, "no authorization header is present in request"}
         else
           find_token(t)
         end
@@ -48,18 +48,19 @@ defmodule MrbeekenBackendWeb.Authentication do
   
   def parse_token(raw_token) do
     case raw_token do
+      # TODO: error handling here
       {:ok, raw_token} ->
         "Bearer " <> raw_token = raw_token
         raw_token
-      {:error, _} ->
-        {:error, nil}
+      {:error, message} ->
+        {:error, message}
     end
   end
 
-  def render_error(conn) do
+  def render_error(conn, message) do
     conn
     |> put_status(400)
-    |> render(ErrorView, "400.json-api", %{title: Errors.session_bad})
+    |> render(ErrorView, "400.json-api", %{title: message})
     |> halt()
   end
 end
