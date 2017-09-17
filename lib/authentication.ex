@@ -10,19 +10,20 @@ defmodule MrbeekenBackendWeb.Authentication do
   end
 
   def call(conn, opts) do
-    token = find_token(conn.req_headers)
-    if token do
-      "Bearer " <> token = token
-      case Guardian.decode_and_verify(token) do
-        {:error, _claims} ->
-          render_error(conn)
-        {:ok, claims} ->
-          "User:" <> user_id = claims["sub"]
-          user = Repo.get(User, user_id)
-          assign(conn, :current_user, user)
-      end
-    else
-      render_error(conn)
+    conn.req_headers
+    |> find_token
+    |> parse_token
+    |> verify_token
+  end
+  
+  def verify_token(parsed_token)
+    case Guardian.decode_and_verify(parsed_token) do
+      {:error, _claims} ->
+        render_error(conn)
+      {:ok, claims} ->
+        "User:" <> user_id = claims["sub"]
+        user = Repo.get(User, user_id)
+        assign(conn, :current_user, user)
     end
   end
 
@@ -32,11 +33,17 @@ defmodule MrbeekenBackendWeb.Authentication do
         x
       {_, _} ->
         if Enum.empty?(t) do
-          nil
+          render_error(conn)
+          token
         else
           find_token(t)
         end
     end
+  end
+  
+  def parse_token(raw_token) do
+    "Bearer " <> raw_token = raw_token
+    raw_token
   end
 
   def render_error(conn) do
