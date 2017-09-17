@@ -30,7 +30,7 @@ defmodule MrbeekenBackendWeb.Authentication do
     case h do
       {"authorization", x} ->
         x
-      true ->
+      {_, _} ->
         if Enum.empty?(t) do
           nil
         else
