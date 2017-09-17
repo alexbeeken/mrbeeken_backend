@@ -17,14 +17,19 @@ defmodule MrbeekenBackendWeb.Authentication do
   end
   
   def verify_token(parsed_token)
-    case Guardian.decode_and_verify(parsed_token) do
-      {:error, _claims} ->
-        render_error(conn)
-      {:ok, claims} ->
-        "User:" <> user_id = claims["sub"]
-        user = Repo.get(User, user_id)
-        assign(conn, :current_user, user)
-    end
+    case parsed_token do
+      {:ok, parsed_token} -> 
+        case Guardian.decode_and_verify(parsed_token) do
+          {:error, _claims} ->
+            render_error(conn)
+          {:ok, claims} ->
+            "User:" <> user_id = claims["sub"]
+            user = Repo.get(User, user_id)
+            assign(conn, :current_user, user)
+        end
+      {:error, _} ->
+        {:error, nil}
+      end
   end
 
   def find_token([ h | t ] \\ [ nil | nil]) do
