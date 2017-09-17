@@ -53,7 +53,7 @@ defmodule MrbeekenBackendWeb.Authentication do
         raw_token
       {:error, _} ->
         {:error, nil}
-      end
+    end
   end
 
   def render_error(conn) do
