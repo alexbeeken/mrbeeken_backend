@@ -12,7 +12,8 @@ config :mrbeeken_backend,
 # Configures the endpoint
 config :mrbeeken_backend, MrbeekenBackendWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "e1SXjRdgNleuQbF1qQpYR079RPbQLIZPNZ+xiuBvVyCo6tVJqT3mvhpSVLAJ6Pq+",
+  secret_key_base:
+    "e1SXjRdgNleuQbF1qQpYR079RPbQLIZPNZ+xiuBvVyCo6tVJqT3mvhpSVLAJ6Pq+",
   render_errors: [view: MrbeekenBackendWeb.ErrorView, accepts: ~w(json-api)],
   pubsub: [name: MrbeekenBackend.PubSub,
            adapter: Phoenix.PubSub.PG2]

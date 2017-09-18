@@ -47,7 +47,8 @@ defmodule MrbeekenBackend.Mixfile do
       {:guardian, "~> 0.9"},
       {:comeonin, "~> 2.4"},
       {:ja_resource, "~> 0.3.0"},
-      {:ex_machina, "~> 2.1"}
+      {:ex_machina, "~> 2.1"},
+      {:dogma, "~> 0.1", only: :dev},
     ]
   end
 

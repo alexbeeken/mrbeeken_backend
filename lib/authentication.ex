@@ -1,4 +1,11 @@
 defmodule MrbeekenBackendWeb.Authentication do
+  @moduledoc """
+    This plug is called every time a request needs to be
+    authenticated.
+    It looks for the token, parses it and then decodes it
+    with Guardian.
+  """
+
   import Plug.Conn
   import Phoenix.Controller
 

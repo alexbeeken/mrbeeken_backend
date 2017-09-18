@@ -1,4 +1,9 @@
 defmodule MrbeekenBackendWeb.Errors do
+  @moduledoc """
+    Stores error messages and has error rendering for controllers
+    if needed.
+  """
+
   import Plug.Conn
   import Phoenix.Controller
 
