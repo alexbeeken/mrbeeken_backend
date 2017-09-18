@@ -29,5 +29,6 @@ defmodule MrbeekenBackendWeb.Errors do
     conn
     |> put_status(status)
     |> render(ErrorView, "#{status}.json-api", %{title: message})
+    |> halt()
   end
 end

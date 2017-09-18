@@ -15,9 +15,7 @@ defmodule MrbeekenBackendWeb.Authentication do
       verify_token(conn, parsed_token)
     rescue
       e in RuntimeError -> e
-      conn
-      |> Errors.render_error(401, e.message)
-      |> halt()
+      Errors.render_error(conn, 401, e.message)
     end
   end
 
