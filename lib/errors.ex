@@ -1,4 +1,9 @@
 defmodule MrbeekenBackendWeb.Errors do
+  import Plug.Conn
+  import Phoenix.Controller
+
+  alias MrbeekenBackendWeb.ErrorView
+
   @password_bad "password is incorrect"
   def password_bad, do: @password_bad
 
@@ -19,4 +24,10 @@ defmodule MrbeekenBackendWeb.Errors do
 
   @user_not_found "email does not exist"
   def user_not_found, do: @user_not_found
+
+  def render_error(conn, status, message) do
+    conn
+    |> put_status(status)
+    |> render(ErrorView, "#{status}.json-api", %{title: message})
+  end
 end

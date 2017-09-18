@@ -8,11 +8,11 @@ defmodule MrbeekenBackendWeb.SessionController do
 
   def login(conn, params) do
     user = Repo.get_by(User, email: params["email"])
-    unless user, do: render_error(conn, 404, Errors.user_not_found)
+    unless user, do: Errors.render_error(conn, 404, Errors.user_not_found)
     if password_correct?(user, params["password"]) do
       generate_token(conn, user)
     else
-      render_error(conn, 404, Errors.password_bad)
+      Errors.render_error(conn, 404, Errors.password_bad)
     end
   end
 
@@ -23,9 +23,7 @@ defmodule MrbeekenBackendWeb.SessionController do
         |> put_status(201)
         |> render("login.json-api", token: jwt)
       {:error, _, _} ->
-        conn
-        |> put_status(400)
-        |> render(ErrorView, "400.json-api", %{title: Errors.password_bad})
+        Errors.render_error(conn, 404, Errors.password_bad)
     end
   end
 
@@ -41,13 +39,7 @@ defmodule MrbeekenBackendWeb.SessionController do
         |> put_status(200)
         |> render("logout.json-api")
       :error ->
-        render_error(conn, 400, Errors.session_bad)
+        Errors.render_error(conn, 400, Errors.session_bad)
     end
-  end
-
-  def render_error(conn, status, message) do
-    conn
-    |> put_status(status)
-    |> render(ErrorView, "#{status}.json-api", %{title: message})
   end
 end

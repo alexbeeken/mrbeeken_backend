@@ -9,9 +9,7 @@ defmodule MrbeekenBackendWeb.DummyController do
       |> put_status(200)
       |> render("success.json-api")
     else
-      conn
-      |> put_status(400)
-      |> render(ErrorView, "400.json-api", %{title: Errors.session_bad})
+      Errors.render_error(conn, 400, Errors.session_bad)
     end
   end
 end

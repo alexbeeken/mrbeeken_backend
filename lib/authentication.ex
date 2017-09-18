@@ -15,7 +15,9 @@ defmodule MrbeekenBackendWeb.Authentication do
       verify_token(conn, parsed_token)
     rescue
       e in RuntimeError -> e
-      render_error(conn, e.message)
+      conn
+      |> Errors.render_error(401, e.message)
+      |> halt()
     end
   end
 
@@ -44,12 +46,5 @@ defmodule MrbeekenBackendWeb.Authentication do
     "Bearer " <> raw_token = find_token(conn.req_headers)
     unless raw_token, do: raise Errors.token_format_bad
     raw_token
-  end
-
-  def render_error(conn, message) do
-    conn
-    |> put_status(400)
-    |> render(ErrorView, "400.json-api", %{title: message})
-    |> halt()
   end
 end
