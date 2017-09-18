@@ -6,10 +6,4 @@ defmodule MrbeekenBackendWeb.DummyView do
         status: "ok"
      }
   end
-
-  def render("error.json-api", _data) do
-    %{
-        status: "error"
-     }
-  end
 end
