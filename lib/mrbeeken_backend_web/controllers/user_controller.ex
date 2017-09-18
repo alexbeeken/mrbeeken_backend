@@ -8,10 +8,9 @@ defmodule MrbeekenBackendWeb.UserController do
   plug JaResource
 
   def me(conn, params) do
-    current_user = conn.assigns.current_user
     conn
     |> put_status(200)
-    |> render("show.json-api", data: current_user)
+    |> render("show.json-api", data: conn.assigns.current_user)
   end
 
   def unique(conn, params) do
