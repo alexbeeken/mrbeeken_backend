@@ -1,8 +1,9 @@
 defmodule MrbeekenBackendWeb.LoginHelper do
+  @moduledoc """
+    Simple way to login a user without having to stub anything
+    from Guardian.
+  """
   use Phoenix.ConnTest
-
-  alias MrbeekenBackend.Repo
-  alias MrbeekenBackendWeb.User
 
   def login(conn, user) do
     {:ok, jwt, _} = Guardian.encode_and_sign(user)

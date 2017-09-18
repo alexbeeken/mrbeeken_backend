@@ -1,6 +1,12 @@
 defmodule MrbeekenBackendWeb.Factory do
+  @moduledoc """
+    Used by ex machina to create test users.
+    This was implemented to make unique users easier
+    to generate on the fly and to simplify tests.
+  """
+
   use ExMachina.Ecto, repo: MrbeekenBackend.Repo
-  
+
   alias MrbeekenBackendWeb.User
 
   def user_factory do

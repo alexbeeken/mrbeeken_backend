@@ -1,6 +1,9 @@
 defmodule MrbeekenBackendWeb.UserView do
+  @moduledoc """
+    Most of jsonapi is taken care of by ja serializer.
+  """
   use JaSerializer.PhoenixView
-  
+
   attributes [:email]
 
   def render("unique.json-api", data) do

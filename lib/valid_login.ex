@@ -1,4 +1,7 @@
 defmodule MrbeekenBackendWeb.ValidLogin do
+  @moduledoc """
+    Simple plug for checking that login params are present.
+  """
   import Plug.Conn
   import Phoenix.Controller
 

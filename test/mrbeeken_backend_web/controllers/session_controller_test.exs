@@ -4,7 +4,7 @@ defmodule MrbeekenBackendWeb.SessionControllerTest do
   import MrbeekenBackendWeb.{JsonApi, TestCreds, Factory}
 
   alias MrbeekenBackend.Repo
-  alias MrbeekenBackendWeb.{User,Errors,SessionView}
+  alias MrbeekenBackendWeb.{User, Errors, SessionView}
 
 
   setup do
@@ -18,22 +18,33 @@ defmodule MrbeekenBackendWeb.SessionControllerTest do
   def render_json(template, assigns) do
     assigns = Map.new(assigns)
 
-    SessionView.render(template, assigns) |> encode
+    encode(SessionView.render(template, assigns))
   end
 
-  test "#login successfully returns a token", %{conn: conn, user: user} do
+  test "#login successfully returns a token", %{
+    conn: conn,
+    user: user
+    } do
     conn = post conn, session_path(conn, :login), valid_login_params(user)
 
     assert json_response(conn, 201)
   end
 
-  test "#login gives correct error for bad password", %{conn: conn, user: user} do
-    conn = post conn, session_path(conn, :login), bad_password_login_params(user)
+  test "#login gives correct error for bad password", %{
+    conn: conn,
+    user: user
+    } do
+    conn =
+      post conn, session_path(conn, :login), bad_password_login_params(user)
 
-    assert json_response(conn, 404) == render_error("404.json-api", %{title: Errors.password_bad})
+    assert json_response(conn, 404)
+      == render_error("404.json-api", %{title: Errors.password_bad})
   end
 
-  test "#logout returns ok for good token", %{conn: conn, user: user} do
+  test "#logout returns ok for good token", %{
+    conn: conn,
+    user: user
+    } do
     {:ok, jwt, _} = Guardian.encode_and_sign(user)
 
     conn =
@@ -44,7 +55,10 @@ defmodule MrbeekenBackendWeb.SessionControllerTest do
     assert json_response(conn, 200) == render_json("logout.json-api", %{})
   end
 
-  test "#logout returns error for bad token", %{conn: conn, user: user} do
+  test "#logout returns error for bad token", %{
+    conn: conn,
+    user: user
+    } do
     {:ok, jwt, _} = Guardian.encode_and_sign(user)
 
     conn =

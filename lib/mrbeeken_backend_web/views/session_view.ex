@@ -1,4 +1,7 @@
 defmodule MrbeekenBackendWeb.SessionView do
+  @moduledoc """
+    Simple rendering for returning token to client.
+  """
   use MrbeekenBackendWeb, :view
 
   def render("logout.json-api", _data) do

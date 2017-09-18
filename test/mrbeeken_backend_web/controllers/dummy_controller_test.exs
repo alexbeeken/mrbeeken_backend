@@ -17,7 +17,10 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
     encode(DummyView.render(template, %{}))
   end
 
-  test "#show returns ok for successful authentication", %{conn: conn, user: user} do
+  test "#show returns ok for successful authentication", %{
+    conn: conn,
+    user: user
+    } do
     {:ok, jwt, _} = Guardian.encode_and_sign(user)
     conn =
       conn
@@ -27,20 +30,27 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
     assert json_response(conn, 200) == render_json("success.json-api")
   end
 
-  test "#show returns error with invalid token", %{conn: conn, user: user} do
+  test "#show returns error with invalid token", %{
+    conn: conn,
+    user: user
+    } do
     {:ok, jwt, _} = Guardian.encode_and_sign(user)
     conn =
       conn
       |> put_req_header("authorization", "Bearer #{jwt}MESSITUP")
       |> get dummy_path(conn, :show)
 
-    assert json_response(conn, 401) == render_error("401.json-api", %{title: Errors.token_invalid})
+    assert json_response(conn, 401)
+      == render_error("401.json-api", %{title: Errors.token_invalid})
   end
 
-  test "#show returns error with no token", %{conn: conn, user: user} do
+  test "#show returns error with no token", %{
+    conn: conn,
+    user: user} do
     {:ok, jwt, _} = Guardian.encode_and_sign(user)
     conn = get conn, dummy_path(conn, :show)
 
-    assert json_response(conn, 401) == render_error("401.json-api", %{title: Errors.token_missing})
+    assert json_response(conn, 401)
+      == render_error("401.json-api", %{title: Errors.token_missing})
   end
 end

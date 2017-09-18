@@ -1,4 +1,9 @@
 defmodule MrbeekenBackend.GuardianSerializer do
+  @moduledoc """
+    This is used by guardian and, at the time of writing,
+    I don't call any of these methods directly.
+  """
+
   @behaviour Guardian.Serializer
 
   alias MrbeekenBackend.Repo

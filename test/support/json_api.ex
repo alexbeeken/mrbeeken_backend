@@ -1,7 +1,11 @@
 defmodule MrbeekenBackendWeb.JsonApi do
+  @moduledoc """
+    Some helpful libraries for testing json api endpoints.
+  """
+
   import Plug.Conn
   import MrbeekenBackendWeb.TestCreds
-  
+
   alias MrbeekenBackendWeb.ErrorView
 
   def json_api_headers(conn) do
