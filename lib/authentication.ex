@@ -11,8 +11,8 @@ defmodule MrbeekenBackendWeb.Authentication do
 
   def call(conn, opts) do
     try do
-      token = parse_token(conn)
-      verify_token(conn, token)
+      parsed_token = parse_token(conn)
+      verify_token(conn, parsed_token)
     rescue
       e in RuntimeError -> e
       render_error(conn, e.message)

@@ -30,7 +30,7 @@ defmodule MrbeekenBackendWeb.SessionControllerTest do
   test "#login gives correct error for bad password", %{conn: conn, user: user} do
     conn = post conn, session_path(conn, :login), bad_password_login_params(user)
 
-    assert json_response(conn, 400) == render_error("400.json-api", %{title: Errors.password_bad})
+    assert json_response(conn, 404) == render_error("404.json-api", %{title: Errors.password_bad})
   end
 
   test "#logout returns ok for good token", %{conn: conn, user: user} do
