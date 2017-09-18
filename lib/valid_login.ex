@@ -12,14 +12,7 @@ defmodule MrbeekenBackendWeb.ValidLogin do
     if conn.params["email"] && conn.params["password"] do
       conn
     else
-      render_error(conn)
+      Errors.render_error(conn, 422, Errors.missing_param)
     end
-  end
-
-  def render_error(conn) do
-    conn
-    |> put_status(422)
-    |> render(ErrorView, "422.json-api", %{title: Errors.missing_param})
-    |> halt()
   end
 end
