@@ -33,7 +33,7 @@ defmodule MrbeekenBackendWeb.UsersControllerTest do
     assert response["attributes"]["email"] == user.email
   end
 
-  test "#show returns the current user object", %{
+  test "#show returns user info if superuser", %{
     conn: conn,
     user: user
     } do
