@@ -7,18 +7,17 @@ defmodule MrbeekenBackendWeb.User do
     field :password, :string, virtual: true
     field :password_confirmation, :string, virtual: true
     field :password_hash, :string
+    field :superuser, :boolean, default: false
 
     timestamps()
   end
 
   @required_fields ~w(email password password_confirmation)a
+  @optional_fields ~w(superuser)a
 
-  @doc """
-  Builds a changeset based on the `struct` and `params`.
-  """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, @required_fields)
+    |> cast(params, @required_fields, @optional_fields)
     |> validate_format(:email, ~r/@/)
     |> validate_required(@required_fields)
     |> validate_length(:password, min: 8)

@@ -30,6 +30,12 @@ defmodule MrbeekenBackendWeb.Errors do
   @user_not_found "email does not exist"
   def user_not_found, do: @user_not_found
 
+  @not_allowed "you dont have permission to do that"
+  def not_allowed, do: @not_allowed
+
+  @session_bad "your session is no longer valid"
+  def password_bad, do: @session_bad
+
   def render_error(conn, status, message) do
     conn
     |> put_status(status)

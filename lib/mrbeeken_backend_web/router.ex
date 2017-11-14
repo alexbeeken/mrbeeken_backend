@@ -16,6 +16,10 @@ defmodule MrbeekenBackendWeb.Router do
     plug MrbeekenBackendWeb.ValidLogin
   end
 
+  pipeline :superuser do
+    plug MrbeekenBackendWeb.Superuser
+  end
+
   scope "/api/v1", MrbeekenBackendWeb do
     pipe_through [:api, :auth]
 
@@ -27,6 +31,7 @@ defmodule MrbeekenBackendWeb.Router do
   scope "/api/v1", MrbeekenBackendWeb do
     pipe_through :api
 
+    resources "/posts", PostController, only: [:show, :index]
     get "users/unique/:email", UserController, :unique
     post "/session/logout", SessionController, :logout
     resources "/users", UserController, only: [:create]
@@ -36,5 +41,12 @@ defmodule MrbeekenBackendWeb.Router do
     pipe_through [:api, :valid_login]
 
     post "/session/login", SessionController, :login
+  end
+
+  scope "/api/v1", MrbeekenBackendWeb do
+    pipe_through [:api, :auth, :superuser]
+
+    get "/dummy/superuser", DummyController, :show, as: :superuser_test
+    resources "/posts", PostController, only: [:create, :update, :delete]
   end
 end

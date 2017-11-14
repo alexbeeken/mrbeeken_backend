@@ -14,7 +14,8 @@ defmodule MrbeekenBackendWeb.Factory do
       email: sequence(:email, &"email-#{&1}@example.com"),
       password: "123456abc",
       password_confirmation: "123456abc",
-      password_hash: Comeonin.Bcrypt.hashpwsalt("123456abc")
+      password_hash: Comeonin.Bcrypt.hashpwsalt("123456abc"),
+      superuser: false
     }
   end
 end

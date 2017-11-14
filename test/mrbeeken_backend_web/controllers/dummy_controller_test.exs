@@ -20,7 +20,7 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
   test "#show returns ok for successful authentication", %{
     conn: conn,
     user: user
-    } do
+  } do
     {:ok, jwt, _} = Guardian.encode_and_sign(user)
     conn =
       conn
@@ -33,7 +33,7 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
   test "#show returns error with invalid token", %{
     conn: conn,
     user: user
-    } do
+  } do
     {:ok, jwt, _} = Guardian.encode_and_sign(user)
     conn =
       conn
@@ -46,11 +46,43 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
 
   test "#show returns error with no token", %{
     conn: conn,
-    user: user} do
+    user: user
+  } do
+
     {:ok, jwt, _} = Guardian.encode_and_sign(user)
     conn = get conn, dummy_path(conn, :show)
 
     assert json_response(conn, 401)
       == render_error("401.json-api", %{title: Errors.token_missing})
+  end
+
+  test "error hitting /superuser #show route if not superuser", %{
+    conn: conn,
+    user: user
+  } do
+
+    {:ok, jwt, _} = Guardian.encode_and_sign(user)
+    conn =
+      conn
+      |> put_req_header("authorization", "Bearer #{jwt}")
+      |> get superuser_test_path(conn, :show)
+
+    assert json_response(conn, 403)
+      == render_error("403.json-api", %{title: Errors.not_allowed})
+  end
+
+  test "superuser can hit /superuser #show route", %{
+    conn: conn,
+    user: user
+  } do
+    user = insert(:user, superuser: true)
+    {:ok, jwt, _} = Guardian.encode_and_sign(user)
+
+    conn =
+      conn
+      |> put_req_header("authorization", "Bearer #{jwt}")
+      |> get superuser_test_path(conn, :show)
+
+    assert json_response(conn, 200) == render_json("success.json-api")
   end
 end

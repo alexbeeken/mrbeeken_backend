@@ -4,7 +4,7 @@ defmodule MrbeekenBackendWeb.UserView do
   """
   use JaSerializer.PhoenixView
 
-  attributes [:email]
+  attributes [:email, :superuser]
 
   def render("unique.json-api", data) do
     %{

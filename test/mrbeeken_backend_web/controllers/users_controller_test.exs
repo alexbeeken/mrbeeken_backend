@@ -1,4 +1,4 @@
-defmodule MrbeekenBackendWeb.UsersControllerTest do
+defmodule MrbeekenBackendWeb.UserControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
   import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper, TestCreds}
