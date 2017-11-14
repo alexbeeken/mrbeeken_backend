@@ -7,7 +7,7 @@ defmodule MrbeekenBackendWeb.Factory do
 
   use ExMachina.Ecto, repo: MrbeekenBackend.Repo
 
-  alias MrbeekenBackendWeb.User
+  alias MrbeekenBackendWeb.{User, Post}
 
   def user_factory do
     %User{
@@ -16,6 +16,16 @@ defmodule MrbeekenBackendWeb.Factory do
       password_confirmation: "123456abc",
       password_hash: Comeonin.Bcrypt.hashpwsalt("123456abc"),
       superuser: false
+    }
+  end
+
+  def post_factory do
+    %Post{
+      title: sequence("post"),
+      summary: sequence("summary"),
+      content: sequence("content"),
+      thumbnail: sequence("http://www.google.com/"),
+      audio: sequence("http://www.google.com/")
     }
   end
 end
