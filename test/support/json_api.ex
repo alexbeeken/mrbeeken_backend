@@ -33,4 +33,14 @@ defmodule MrbeekenBackendWeb.JsonApi do
     |> Poison.encode!
     |> Poison.decode!
   end
+
+  def request_body(id, type, attrs) do
+    %{
+      data: %{
+        id: id,
+        type: type,
+        attributes: attrs
+      }
+    }
+  end
 end
