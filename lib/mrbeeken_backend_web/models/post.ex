@@ -20,5 +20,7 @@ defmodule MrbeekenBackendWeb.Post do
     |> cast(params, @required_fields)
     |> cast(params, @optional_fields)
     |> validate_required(@required_fields)
+    |> validate_length(:title, min: 2, max: 120)
+    |> validate_length(:summary, min: 2, max: 496)
   end
 end
