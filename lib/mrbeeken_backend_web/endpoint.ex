@@ -3,6 +3,8 @@ defmodule MrbeekenBackendWeb.Endpoint do
 
   socket "/socket", MrbeekenBackendWeb.UserSocket
 
+  plug CORSPlug
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest
@@ -48,7 +50,9 @@ defmodule MrbeekenBackendWeb.Endpoint do
   """
   def init(_key, config) do
     if config[:load_from_system_env] do
-      port = System.get_env("PORT") || raise "expected the PORT environment variable to be set"
+      port =
+        System.get_env("PORT")
+          || raise "expected the PORT environment variable to be set"
       {:ok, Keyword.put(config, :http, [:inet6, port: port])}
     else
       {:ok, config}

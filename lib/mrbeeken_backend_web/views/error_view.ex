@@ -1,17 +1,65 @@
 defmodule MrbeekenBackendWeb.ErrorView do
   use MrbeekenBackendWeb, :view
 
-  def render("404.html", _assigns) do
-    "Page not found"
+  alias MrbeekenBackendWeb.Errors
+
+  def render("400.json-api", data) do
+    %{
+      errors: [
+        %{
+          title: data[:title]
+        }
+      ]
+    }
   end
 
-  def render("500.html", _assigns) do
-    "Internal server error"
+  def render("500.json-api", data) do
+    %{
+      errors: [
+        %{
+          title: "Something has gone wrong"
+        }
+      ]
+    }
   end
 
-  # In case no render clause matches or no
-  # template is found, let's render it as 500
-  def template_not_found(_template, assigns) do
-    render "500.html", assigns
+  def render("406.json-api", data) do
+    %{
+      errors: [
+        %{
+          title: Errors.unnacceptable_type
+        }
+      ]
+    }
+  end
+
+  def render("422.json-api", data) do
+    %{
+      errors: [
+        %{
+          title: data[:title]
+        }
+      ]
+    }
+  end
+
+  def render("404.json-api", data) do
+    %{
+      errors: [
+        %{
+          title: data[:title]
+        }
+      ]
+    }
+  end
+
+  def render(string, data) do
+    %{
+      errors: [
+        %{
+          title: "Unkown error occured"
+        }
+      ]
+    }
   end
 end

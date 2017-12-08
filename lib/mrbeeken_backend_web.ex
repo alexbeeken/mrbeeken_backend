@@ -23,6 +23,7 @@ defmodule MrbeekenBackendWeb do
       import Plug.Conn
       import MrbeekenBackendWeb.Router.Helpers
       import MrbeekenBackendWeb.Gettext
+      import MrbeekenBackendWeb.Authentication
     end
   end
 

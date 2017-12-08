@@ -12,7 +12,8 @@ defmodule MrbeekenBackend.Application do
       MrbeekenBackend.Repo,
       # Start the endpoint when the application starts
       supervisor(MrbeekenBackendWeb.Endpoint, []),
-      # Start your own worker by calling: MrbeekenBackend.Worker.start_link(arg1, arg2, arg3)
+      # Start your own worker by calling:
+      # MrbeekenBackend.Worker.start_link(arg1, arg2, arg3)
       # worker(MrbeekenBackend.Worker, [arg1, arg2, arg3]),
     ]
 
