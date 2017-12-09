@@ -26,12 +26,12 @@ defmodule MrbeekenBackendWeb.TestCreds do
     user \\ %User{
       email: "test@example.com",
       password: "123456abc",
-      password_hash: "123456abc"}
+      password_confirmation: "123456abc"}
       ) do
     %{
       email: user.email,
       password: user.password,
-      password_hash: user.password_hash
+      password_confirmation: user.password_confirmation
     }
   end
 

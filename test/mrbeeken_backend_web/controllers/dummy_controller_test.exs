@@ -72,8 +72,7 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
   end
 
   test "superuser can hit /superuser #show route", %{
-    conn: conn,
-    user: user
+    conn: conn
   } do
     user = insert(:user, superuser: true)
     {:ok, jwt, _} = Guardian.encode_and_sign(user)

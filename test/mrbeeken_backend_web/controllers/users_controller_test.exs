@@ -14,28 +14,45 @@ defmodule MrbeekenBackendWeb.UserControllerTest do
     {:ok, conn: conn, user: user}
   end
 
+  def super_user_conn do
+    user = insert(:user, superuser: true)
+    conn =
+      build_conn()
+      |> json_api_headers
+      |> login(user)
+    {:ok, conn: conn, user: user}
+  end
+
+  def no_user_conn do
+    conn = json_api_headers(build_conn())
+  end
+
   def render_json(template, assigns) do
     assigns = Map.new(assigns)
 
     encode(UserView.render(template, assigns))
   end
 
-  test "#create returns success when successful", %{
-    conn: conn,
-    user: user
-    } do
-    conn = get conn, user_path(conn, :create, valid_registration_params(user))
-
-    response = List.first(json_response(conn, 200)["data"])
-    assert response["type"] == "user"
-    assert response["id"] == Integer.to_string(user.id)
-    assert response["attributes"]["email"] == user.email
+  def create_params do
+    %{
+      data: %{
+        type: "Post",
+        attributes: valid_registration_params()
+      }
+    }
   end
 
-  test "#show returns user info if superuser", %{
-    conn: conn,
-    user: user
-    } do
+  test "#create returns success when successful" do
+    conn = no_user_conn
+    conn = post conn, user_path(conn, :create, create_params)
+
+    response = json_response(conn, 201)["data"]
+    assert response["type"] == "user"
+    assert response["attributes"]["email"] == create_params.data.attributes.email
+  end
+
+  test "#show returns user info if superuser" do
+    {:ok, conn: conn, user: user} = super_user_conn
     conn = get conn, user_path(conn, :show, user.id)
 
     assert json_response(conn, 200)
