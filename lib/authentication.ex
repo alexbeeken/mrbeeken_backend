@@ -7,16 +7,15 @@ defmodule MrbeekenBackendWeb.Authentication do
   """
 
   import Plug.Conn
-  import Phoenix.Controller
 
   alias MrbeekenBackend.{Repo}
-  alias MrbeekenBackendWeb.{User, ErrorView, Errors}
+  alias MrbeekenBackendWeb.{User, Errors}
 
   def init(opts) do
     opts
   end
 
-  def call(conn, opts) do
+  def call(conn, _opts) do
     try do
       parsed_token = parse_token(conn)
       verify_token(conn, parsed_token)

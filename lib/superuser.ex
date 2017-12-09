@@ -2,16 +2,14 @@ defmodule MrbeekenBackendWeb.Superuser do
   @moduledoc """
     Simple plug for checking that user is superuser.
   """
-  import Plug.Conn
-  import Phoenix.Controller
 
-  alias MrbeekenBackendWeb.{ErrorView, Errors}
+  alias MrbeekenBackendWeb.Errors
 
   def init(opts) do
     opts
   end
 
-  def call(conn, opts) do
+  def call(conn, _opts) do
     if conn.assigns[:current_user].superuser do
       conn
     else

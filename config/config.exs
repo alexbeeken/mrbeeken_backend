@@ -5,6 +5,14 @@
 # is restricted to this project.
 use Mix.Config
 
+config :mrbeeken_backend, MrbeekenBackend.Repo,
+  adapter: Ecto.Adapters.Postgres,
+  database: "mrbeeken_backend_repo",
+  username: "user",
+  password: "pass",
+  hostname: "localhost"
+
+
 # General application configuration
 config :mrbeeken_backend,
   ecto_repos: [MrbeekenBackend.Repo]

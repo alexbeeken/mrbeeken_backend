@@ -34,7 +34,7 @@ defmodule MrbeekenBackendWeb.Errors do
   def not_allowed, do: @not_allowed
 
   @session_bad "your session is no longer valid"
-  def password_bad, do: @session_bad
+  def session_bad, do: @session_bad
 
   def render_error(conn, status, message) do
     conn

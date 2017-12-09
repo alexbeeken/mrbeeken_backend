@@ -2,16 +2,14 @@ defmodule MrbeekenBackendWeb.ValidLogin do
   @moduledoc """
     Simple plug for checking that login params are present.
   """
-  import Plug.Conn
-  import Phoenix.Controller
 
-  alias MrbeekenBackendWeb.{ErrorView, Errors}
+  alias MrbeekenBackendWeb.Errors
 
   def init(opts) do
     opts
   end
 
-  def call(conn, opts) do
+  def call(conn, _opts) do
     if conn.params["email"] && conn.params["password"] do
       conn
     else
