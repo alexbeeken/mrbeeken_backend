@@ -7,7 +7,7 @@ defmodule MrbeekenBackendWeb.Factory do
 
   use ExMachina.Ecto, repo: MrbeekenBackend.Repo
 
-  alias MrbeekenBackendWeb.{User, Post}
+  alias MrbeekenBackendWeb.{User, Post, Course}
 
   def user_factory do
     %User{
@@ -21,11 +21,18 @@ defmodule MrbeekenBackendWeb.Factory do
 
   def post_factory do
     %Post{
-      title: sequence("post"),
-      summary: sequence("summary"),
-      content: sequence("content"),
+      title: sequence("post title"),
+      summary: sequence("post summary"),
+      content: sequence("post content"),
       thumbnail: sequence("http://www.google.com/"),
       audio: sequence("http://www.google.com/")
+    }
+  end
+
+  def course_factory do
+    %Course{
+      title: sequence("course title"),
+      summary: sequence("course summary")
     }
   end
 end

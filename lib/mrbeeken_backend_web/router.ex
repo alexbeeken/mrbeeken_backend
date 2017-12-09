@@ -25,7 +25,6 @@ defmodule MrbeekenBackendWeb.Router do
 
     get "/dummy", DummyController, :show
     get "users/me", UserController, :me
-    resources "/users", UserController, only: [:show, :index]
   end
 
   scope "/api/v1", MrbeekenBackendWeb do
@@ -35,6 +34,7 @@ defmodule MrbeekenBackendWeb.Router do
     get "users/unique/:email", UserController, :unique
     post "/session/logout", SessionController, :logout
     resources "/users", UserController, only: [:create]
+    resources "/courses", CourseController, only: [:show, :index]
   end
 
   scope "/api/v1", MrbeekenBackendWeb do
@@ -48,5 +48,7 @@ defmodule MrbeekenBackendWeb.Router do
 
     get "/dummy/superuser", DummyController, :show, as: :superuser_test
     resources "/posts", PostController, only: [:create, :update, :delete]
+    resources "/courses", CourseController, only: [:create, :update, :delete]
+    resources "/users", UserController, only: [:show, :index]
   end
 end
