@@ -14,14 +14,6 @@ defmodule MrbeekenBackendWeb.JsonApi do
     |> put_req_header("content-type", "application/vnd.api+json")
   end
 
-  def valid_token(conn) do
-    put_req_header(conn, "authorization", TestCreds.valid_token)
-  end
-
-  def invalid_token(conn) do
-    put_req_header(conn, "authorization", TestCreds.invalid_token)
-  end
-
   def render_error(template, assigns) do
     assigns = Map.new(assigns)
 

@@ -3,8 +3,7 @@ defmodule MrbeekenBackendWeb.UserControllerTest do
 
   import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper, TestCreds}
 
-  alias MrbeekenBackend.Repo
-  alias MrbeekenBackendWeb.{User, UserView}
+  alias MrbeekenBackendWeb.UserView
 
   setup do
     user = insert(:user)
@@ -56,8 +55,7 @@ defmodule MrbeekenBackendWeb.UserControllerTest do
   end
 
   test "#unique returns true in meta if email available", %{
-    conn: conn,
-    user: user
+    conn: conn
     } do
     conn = get conn, user_path(conn, :unique, "buttermilk555@gmail.com")
 
