@@ -4,7 +4,7 @@ defmodule MrbeekenBackendWeb.CourseControllerTest do
   import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper, TestCreds}
 
   alias MrbeekenBackend.Repo
-  alias MrbeekenBackendWeb.{PostView, Post}
+  alias MrbeekenBackendWeb.{Course, CourseView}
 
   setup do
     conn =
