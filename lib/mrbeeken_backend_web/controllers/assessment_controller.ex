@@ -2,7 +2,7 @@ require IEx
 defmodule MrbeekenBackendWeb.AssessmentController do
   use MrbeekenBackendWeb, :controller
 
-  alias MrbeekenBackendWeb.{Assessment, Unit}
+  alias MrbeekenBackendWeb.{Assessment}
   alias MrbeekenBackend.Repo
   import Ecto.Query
 
@@ -17,10 +17,9 @@ defmodule MrbeekenBackendWeb.AssessmentController do
 
   def handle_create(conn, params) do
     { unit_id, _ } = Integer.parse(conn.params["unit_id"])
-    unit =
-      Repo.insert(%Assessment{
-        title: params["title"],
-        unit_id: unit_id
-      })
+    Repo.insert(%Assessment{
+      title: params["title"],
+      unit_id: unit_id
+    })
   end
 end

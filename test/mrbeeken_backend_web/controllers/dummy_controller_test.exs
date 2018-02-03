@@ -1,7 +1,7 @@
 defmodule MrbeekenBackendWeb.DummyControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
-  alias MrbeekenBackendWeb.{DummyView, User, Errors}
+  alias MrbeekenBackendWeb.{DummyView, Errors}
 
   setup do
     user = insert(:user)
@@ -22,7 +22,7 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
     conn =
       conn
       |> put_req_header("authorization", "Bearer #{jwt}")
-      |> get dummy_path(conn, :show)
+      |> get(dummy_path(conn, :show))
 
     assert json_response(conn, 200) == render_json("success.json-api")
   end
@@ -35,7 +35,7 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
     conn =
       conn
       |> put_req_header("authorization", "Bearer #{jwt}MESSITUP")
-      |> get dummy_path(conn, :show)
+      |> get(dummy_path(conn, :show))
 
     assert json_response(conn, 401)
       == render_error("401.json-api", %{title: Errors.token_invalid})
@@ -46,7 +46,7 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
     user: user
   } do
 
-    {:ok, jwt, _} = Guardian.encode_and_sign(user)
+    {:ok, _, _} = Guardian.encode_and_sign(user)
     conn = get conn, dummy_path(conn, :show)
 
     assert json_response(conn, 401)
@@ -62,7 +62,7 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
     conn =
       conn
       |> put_req_header("authorization", "Bearer #{jwt}")
-      |> get superuser_test_path(conn, :show)
+      |> get(superuser_test_path(conn, :show))
 
     assert json_response(conn, 403)
       == render_error("403.json-api", %{title: Errors.not_allowed})
@@ -77,7 +77,7 @@ defmodule MrbeekenBackendWeb.DummyControllerTest do
     conn =
       conn
       |> put_req_header("authorization", "Bearer #{jwt}")
-      |> get superuser_test_path(conn, :show)
+      |> get(superuser_test_path(conn, :show))
 
     assert json_response(conn, 200) == render_json("success.json-api")
   end

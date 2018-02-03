@@ -13,7 +13,7 @@ defmodule MrbeekenBackendWeb.ErrorView do
     }
   end
 
-  def render("500.json-api", data) do
+  def render("500.json-api", _) do
     %{
       errors: [
         %{
@@ -23,7 +23,7 @@ defmodule MrbeekenBackendWeb.ErrorView do
     }
   end
 
-  def render("406.json-api", data) do
+  def render("406.json-api", _) do
     %{
       errors: [
         %{
@@ -63,7 +63,7 @@ defmodule MrbeekenBackendWeb.ErrorView do
     }
   end
 
-  def render(string, data) do
+  def render(_, _) do
     %{
       errors: [
         %{

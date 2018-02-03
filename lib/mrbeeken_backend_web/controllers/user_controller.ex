@@ -7,7 +7,7 @@ defmodule MrbeekenBackendWeb.UserController do
 
   plug JaResource
 
-  def me(conn, params) do
+  def me(conn, _) do
     conn
     |> put_status(200)
     |> render("show.json-api", data: conn.assigns.current_user)

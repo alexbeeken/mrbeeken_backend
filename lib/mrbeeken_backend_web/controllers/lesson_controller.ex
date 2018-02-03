@@ -16,11 +16,10 @@ defmodule MrbeekenBackendWeb.LessonController do
 
   def handle_create(conn, params) do
     { unit_id, _ } = Integer.parse(conn.params["unit_id"])
-    unit =
-      Repo.insert(%Lesson{
-        title: params["title"],
-        content: params["content"],
-        unit_id: unit_id
-      })
+    Repo.insert(%Lesson{
+      title: params["title"],
+      content: params["content"],
+      unit_id: unit_id
+    })
   end
 end

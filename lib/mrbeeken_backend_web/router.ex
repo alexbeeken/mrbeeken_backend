@@ -24,7 +24,7 @@ defmodule MrbeekenBackendWeb.Router do
     pipe_through [:api, :auth]
 
     get "/dummy", DummyController, :show
-    get "users/me", UserController, :me
+    get "/users/me", UserController, :me
   end
 
   scope "/api/v1", MrbeekenBackendWeb do
@@ -32,13 +32,15 @@ defmodule MrbeekenBackendWeb.Router do
 
     resources "/courses", CourseController, only: [:show, :index] do
       resources "/units", UnitController, only: [:show, :index] do
-        resources "/lessons", LessonController, only: [:show, :index]
-        resources "/assessments", AssessmentController, only: [:show, :index]
+        resources "/lessons", LessonController,
+          only: [:show, :index]
+        resources "/assessments", AssessmentController,
+          only: [:show, :index]
       end
     end
     resources "/posts", PostController, only: [:show, :index]
     post "/session/logout", SessionController, :logout
-    get "users/unique/:email", UserController, :unique
+    get "/users/unique/:email", UserController, :unique
     resources "/users", UserController, only: [:create]
   end
 
@@ -52,9 +54,12 @@ defmodule MrbeekenBackendWeb.Router do
     pipe_through [:api, :auth, :superuser]
 
     resources "/courses", CourseController, only: [:create, :update, :delete] do
-      resources "/units", UnitController, only: [:create, :update, :delete] do
-        resources "/lessons", LessonController, only: [:create, :update, :delete]
-        resources "/assessments", AssessmentController, only: [:create, :update, :delete]
+      resources "/units", UnitController,
+        only: [:create, :update, :delete] do
+        resources "/lessons", LessonController,
+          only: [:create, :update, :delete]
+        resources "/assessments", AssessmentController,
+          only: [:create, :update, :delete]
       end
     end
     get "/dummy/superuser", DummyController, :show, as: :superuser_test

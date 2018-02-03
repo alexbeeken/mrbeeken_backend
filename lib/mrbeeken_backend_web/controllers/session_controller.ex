@@ -4,7 +4,7 @@ defmodule MrbeekenBackendWeb.SessionController do
   import MrbeekenBackendWeb.Authentication
 
   alias MrbeekenBackend.Repo
-  alias MrbeekenBackendWeb.{User, Errors, ErrorView}
+  alias MrbeekenBackendWeb.{User, Errors}
 
   def login(conn, params) do
     user = Repo.get_by(User, email: params["email"])
@@ -31,7 +31,7 @@ defmodule MrbeekenBackendWeb.SessionController do
     Comeonin.Bcrypt.checkpw(password, user.password_hash)
   end
 
-  def logout(conn, params) do
+  def logout(conn, _) do
     token = find_token(conn.req_headers)
     case Guardian.revoke!(token) do
       :ok ->

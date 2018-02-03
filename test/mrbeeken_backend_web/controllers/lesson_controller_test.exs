@@ -28,16 +28,12 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
     %{
       data: %{
         type: "Lesson",
-        attributes: lesson_attrs
+        attributes: lesson_attrs()
       }
     }
   end
 
-  test "#get returns a lesson object",
-    %{
-      conn: conn,
-      course: course
-    } do
+  test "#get returns a lesson object", %{ conn: conn } do
     lesson = insert(:lesson)
 
     conn = get conn, course_unit_lesson_path(
@@ -66,7 +62,7 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
     lesson2 = insert(:lesson,
       unit: unit
     )
-    lesson3 = insert(:lesson)
+    insert(:lesson)
 
     conn = get conn, course_unit_lesson_path(
       conn,
@@ -104,23 +100,18 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
       :create,
       course.id,
       unit.id,
-      lesson_params
+      lesson_params()
     )
 
     response = json_response(conn, 201)
     assert response["data"]["type"] == "lesson"
     assert response["data"]["attributes"]["title"]
-      == lesson_attrs.title
+      == lesson_attrs().title
     assert response["data"]["attributes"]["content"]
-      == lesson_attrs.content
+      == lesson_attrs().content
   end
 
-  test "#update returns updates object",
-    %{
-      conn: conn,
-      course: course,
-      unit: unit
-    } do
+  test "#update returns updates object", %{ conn: conn } do
 
     lesson = insert(:lesson)
     conn = patch conn, course_unit_lesson_path(
@@ -129,24 +120,18 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
       lesson.unit.course.id,
       lesson.unit.id,
       lesson.id,
-      lesson_params
+      lesson_params()
     )
 
     response = json_response(conn, 200)
     assert response["data"]["type"] == "lesson"
     assert response["data"]["attributes"]["title"]
-      == lesson_attrs.title
+      == lesson_attrs().title
     assert response["data"]["attributes"]["content"]
-      == lesson_attrs.content
+      == lesson_attrs().content
   end
 
-  test "#delete removes object",
-    %{
-      conn: conn,
-      course: course,
-      unit: unit
-    } do
-
+  test "#delete removes object", %{ conn: conn } do
     lesson = insert(:lesson)
     assert Repo.aggregate(Lesson, :count, :id) == 1
     conn = delete conn, course_unit_lesson_path(

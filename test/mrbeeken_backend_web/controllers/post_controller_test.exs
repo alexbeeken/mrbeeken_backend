@@ -19,7 +19,7 @@ defmodule MrbeekenBackendWeb.PostControllerTest do
     %{
       data: %{
         type: "Post",
-        attributes: post_attrs
+        attributes: post_attrs()
       }
     }
   end
@@ -44,20 +44,20 @@ defmodule MrbeekenBackendWeb.PostControllerTest do
     conn =
       conn
       |> login_superuser
-      |> post post_path(conn, :create, post_params)
+      |> post(post_path(conn, :create, post_params()))
 
     response = json_response(conn, 201)
     assert response["data"]["type"] == "post"
-    assert response["data"]["attributes"]["title"] == post_attrs.title
-    assert response["data"]["attributes"]["summary"] == post_attrs.summary
-    assert response["data"]["attributes"]["content"] == post_attrs.content
-    assert response["data"]["attributes"]["thumbnail"] == post_attrs.thumbnail
-    assert response["data"]["attributes"]["audio"] == post_attrs.audio
+    assert response["data"]["attributes"]["title"] == post_attrs().title
+    assert response["data"]["attributes"]["summary"] == post_attrs().summary
+    assert response["data"]["attributes"]["content"] == post_attrs().content
+    assert response["data"]["attributes"]["thumbnail"] == post_attrs().thumbnail
+    assert response["data"]["attributes"]["audio"] == post_attrs().audio
   end
 
   test "#show returns post object", %{ conn: conn } do
     post = insert(:post)
-    conn = get conn, post_path(conn, :show, post)
+    conn = get(conn, post_path(conn, :show, post))
 
     response = json_response(conn, 200)
     assert response["data"]["type"] == "post"
@@ -69,19 +69,19 @@ defmodule MrbeekenBackendWeb.PostControllerTest do
   end
 
   test "#index returns post object", %{ conn: conn } do
-    posts = insert_list(3, :post)
-    conn = get conn, post_path(conn, :index)
+    insert_list(3, :post)
+    conn = get(conn, post_path(conn, :index))
 
     response = json_response(conn, 200)
     assert length(response["data"]) == 3
   end
 
   test "#delete removes post object if superuser", %{ conn: conn } do
-    [ post1 | post2 ] = insert_list(2, :post)
+    [ post1 | _ ] = insert_list(2, :post)
     conn =
       conn
       |> login_superuser
-      |> delete post_path(conn, :delete, post1)
+      |> delete(post_path(conn, :delete, post1))
 
     assert conn.status == 204
     assert length(Repo.all(Post)) == 1
@@ -100,12 +100,12 @@ defmodule MrbeekenBackendWeb.PostControllerTest do
     conn =
       conn
       |> login_superuser
-      |> put post_path(
+      |> put(post_path(
         conn,
         :update,
         post.id,
         request_body(post.id, "post", attrs)
-      )
+      ))
 
     response = json_response(conn, 200)
     assert response["data"]["type"] == "post"

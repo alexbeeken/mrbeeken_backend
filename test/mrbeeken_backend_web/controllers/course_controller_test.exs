@@ -1,7 +1,7 @@
 defmodule MrbeekenBackendWeb.CourseControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
-  alias MrbeekenBackendWeb.{Course, CourseView}
+  alias MrbeekenBackendWeb.{Course}
 
   setup do
     conn =
@@ -19,7 +19,7 @@ defmodule MrbeekenBackendWeb.CourseControllerTest do
     %{
       data: %{
         type: "Course",
-        attributes: course_attrs
+        attributes: course_attrs()
       }
     }
   end
@@ -41,12 +41,12 @@ defmodule MrbeekenBackendWeb.CourseControllerTest do
     conn =
       conn
       |> login_superuser
-      |> post course_path(conn, :create, course_params)
+      |> post(course_path(conn, :create, course_params()))
 
     response = json_response(conn, 201)
     assert response["data"]["type"] == "course"
-    assert response["data"]["attributes"]["title"] == course_attrs.title
-    assert response["data"]["attributes"]["summary"] == course_attrs.summary
+    assert response["data"]["attributes"]["title"] == course_attrs().title
+    assert response["data"]["attributes"]["summary"] == course_attrs().summary
   end
 
   test "#show returns create object", %{ conn: conn } do
@@ -60,7 +60,7 @@ defmodule MrbeekenBackendWeb.CourseControllerTest do
   end
 
   test "#index returns course objects", %{ conn: conn } do
-    posts = insert_list(3, :course)
+    insert_list(3, :course)
     conn = get conn, course_path(conn, :index)
 
     response = json_response(conn, 200)
@@ -68,11 +68,11 @@ defmodule MrbeekenBackendWeb.CourseControllerTest do
   end
 
   test "#delete removes course object if superuser", %{ conn: conn } do
-    [ course1 | course2 ] = insert_list(2, :course)
+    [ course1 | _ ] = insert_list(2, :course)
     conn =
       conn
       |> login_superuser
-      |> delete course_path(conn, :delete, course1)
+      |> delete(course_path(conn, :delete, course1))
 
     assert conn.status == 204
     assert length(Repo.all(Course)) == 1
@@ -88,12 +88,12 @@ defmodule MrbeekenBackendWeb.CourseControllerTest do
     conn =
       conn
       |> login_superuser
-      |> put course_path(
+      |> put(course_path(
         conn,
         :update,
         course.id,
         request_body(course.id, "course", attrs)
-      )
+      ))
 
     response = json_response(conn, 200)
     assert response["data"]["type"] == "course"

@@ -27,7 +27,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     %{
       data: %{
         type: "Unit",
-        attributes: unit_attrs
+        attributes: unit_attrs()
       }
     }
   end
@@ -61,7 +61,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     unit2 = insert(:unit,
       course: course
     )
-    unit3 = insert(:unit)
+    insert(:unit)
 
     conn = get conn, course_unit_path(
       conn,
@@ -95,39 +95,45 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
       course: course
     } do
 
-    conn = post conn, course_unit_path(conn, :create, course.id, unit_params)
+    conn = post conn, course_unit_path(
+      conn,
+      :create,
+      course.id,
+      unit_params()
+    )
 
     response = json_response(conn, 201)
     assert response["data"]["type"] == "unit"
-    assert response["data"]["attributes"]["title"] == unit_attrs.title
-    assert response["data"]["attributes"]["summary"] == unit_attrs.summary
+    assert response["data"]["attributes"]["title"] == unit_attrs().title
+    assert response["data"]["attributes"]["summary"] == unit_attrs().summary
   end
 
-  test "#update returns updates object",
-    %{
-      conn: conn,
-      course: course
-    } do
-
+  test "#update returns updates object", %{ conn: conn } do
     unit = insert(:unit)
     course = unit.course
-    conn = patch conn, course_unit_path(conn, :update, course.id, unit.id, unit_params)
+    conn = patch conn, course_unit_path(
+      conn,
+      :update,
+      course.id,
+      unit.id,
+      unit_params()
+    )
 
     response = json_response(conn, 200)
     assert response["data"]["type"] == "unit"
-    assert response["data"]["attributes"]["title"] == unit_attrs.title
-    assert response["data"]["attributes"]["summary"] == unit_attrs.summary
+    assert response["data"]["attributes"]["title"] == unit_attrs().title
+    assert response["data"]["attributes"]["summary"] == unit_attrs().summary
   end
 
-  test "#delete removes object",
-    %{
-      conn: conn,
-      course: course
-    } do
-
+  test "#delete removes object", %{ conn: conn } do
     unit = insert(:unit)
     assert Repo.aggregate(Unit, :count, :id) == 1
-    conn = delete conn, course_unit_path(conn, :delete, unit.course.id, unit.id)
+    conn = delete conn, course_unit_path(
+      conn,
+      :delete,
+      unit.course.id,
+      unit.id
+    )
 
     assert Repo.aggregate(Unit, :count, :id) == 0
     assert conn.status == 204

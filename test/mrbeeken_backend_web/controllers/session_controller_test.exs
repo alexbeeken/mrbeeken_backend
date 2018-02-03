@@ -1,7 +1,7 @@
 defmodule MrbeekenBackendWeb.SessionControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
-  alias MrbeekenBackendWeb.{User, Errors, SessionView}
+  alias MrbeekenBackendWeb.{Errors, SessionView}
 
   setup do
     user = insert(:user)
@@ -21,7 +21,7 @@ defmodule MrbeekenBackendWeb.SessionControllerTest do
     conn: conn,
     user: user
     } do
-    conn = post conn, session_path(conn, :login), valid_login_params(user)
+    conn = post(conn, session_path(conn, :login), valid_login_params(user))
 
     assert json_response(conn, 201)
   end
@@ -31,7 +31,7 @@ defmodule MrbeekenBackendWeb.SessionControllerTest do
     user: user
     } do
     conn =
-      post conn, session_path(conn, :login), bad_password_login_params(user)
+      post(conn, session_path(conn, :login), bad_password_login_params(user))
 
     assert json_response(conn, 404)
       == render_error("404.json-api", %{title: Errors.password_bad})
@@ -46,7 +46,7 @@ defmodule MrbeekenBackendWeb.SessionControllerTest do
     conn =
       conn
       |> put_req_header("authorization", "Bearer #{jwt}")
-      |> post session_path(conn, :logout)
+      |> post(session_path(conn, :logout))
 
     assert json_response(conn, 200) == render_json("logout.json-api", %{})
   end
@@ -60,7 +60,7 @@ defmodule MrbeekenBackendWeb.SessionControllerTest do
     conn =
       conn
       |> put_req_header("authorization", "Bearer #{jwt}MESSITUP")
-      |> post session_path(conn, :logout)
+      |> post(session_path(conn, :logout))
 
     assert json_response(conn, 200) == render_json("logout.json-api", %{})
   end

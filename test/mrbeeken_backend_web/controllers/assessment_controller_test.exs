@@ -27,15 +27,14 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
     %{
       data: %{
         type: "Assessment",
-        attributes: assessment_attrs
+        attributes: assessment_attrs()
       }
     }
   end
 
   test "#get returns an assessment object",
     %{
-      conn: conn,
-      course: course
+      conn: conn
     } do
     assessment = insert(:assessment)
 
@@ -65,7 +64,7 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
     assessment2 = insert(:assessment,
       unit: unit
     )
-    assessment3 = insert(:assessment)
+    insert(:assessment)
 
     conn = get conn, course_unit_assessment_path(
       conn,
@@ -103,20 +102,18 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
       :create,
       course.id,
       unit.id,
-      assessment_params
+      assessment_params()
     )
 
     response = json_response(conn, 201)
     assert response["data"]["type"] == "assessment"
     assert response["data"]["attributes"]["title"]
-      == assessment_attrs.title
+      == assessment_attrs().title
   end
 
   test "#update returns updates object",
     %{
-      conn: conn,
-      course: course,
-      unit: unit
+      conn: conn
     } do
 
     assessment = insert(:assessment)
@@ -126,21 +123,16 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
       assessment.unit.course.id,
       assessment.unit.id,
       assessment.id,
-      assessment_params
+      assessment_params()
     )
 
     response = json_response(conn, 200)
     assert response["data"]["type"] == "assessment"
     assert response["data"]["attributes"]["title"]
-      == assessment_attrs.title
+      == assessment_attrs().title
   end
 
-  test "#delete removes object",
-    %{
-      conn: conn,
-      course: course,
-      unit: unit
-    } do
+  test "#delete removes object", %{ conn: conn } do
 
     assessment = insert(:assessment)
     assert Repo.aggregate(Assessment, :count, :id) == 1

@@ -22,7 +22,7 @@ defmodule MrbeekenBackendWeb.UserControllerTest do
   end
 
   def no_user_conn do
-    conn = json_api_headers(build_conn())
+    json_api_headers(build_conn())
   end
 
   def render_json(template, assigns) do
@@ -41,16 +41,17 @@ defmodule MrbeekenBackendWeb.UserControllerTest do
   end
 
   test "#create returns success when successful" do
-    conn = no_user_conn
-    conn = post conn, user_path(conn, :create, create_params)
+    conn = no_user_conn()
+    conn = post conn, user_path(conn, :create, create_params())
 
     response = json_response(conn, 201)["data"]
     assert response["type"] == "user"
-    assert response["attributes"]["email"] == create_params.data.attributes.email
+    assert response["attributes"]["email"] ==
+      create_params().data.attributes.email
   end
 
   test "#show returns user info if superuser" do
-    {:ok, conn: conn, user: user} = super_user_conn
+    {:ok, conn: conn, user: user} = super_user_conn()
     conn = get conn, user_path(conn, :show, user.id)
 
     assert json_response(conn, 200)

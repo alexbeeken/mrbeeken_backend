@@ -1,7 +1,7 @@
 defmodule MrbeekenBackendWeb.DummyController do
   use MrbeekenBackendWeb, :controller
 
-  alias MrbeekenBackendWeb.{ErrorView, Errors}
+  alias MrbeekenBackendWeb.{Errors}
 
   def show(conn, _params) do
     if conn.assigns[:current_user] do
