@@ -46,7 +46,12 @@ defmodule MrbeekenBackendWeb.Router do
   scope "/api/v1", MrbeekenBackendWeb do
     pipe_through [:api, :auth, :superuser]
 
-    resources "/courses", CourseController, only: [:create, :update, :delete]
+    resources "/courses", CourseController, only: [:create, :update, :delete] do
+      resources "/units", UnitController, only: [:create, :update, :delete] do
+        resources "/lessons", LessonController, only: [:create, :update, :delete]
+        resources "/assessments", AssessmentController, only: [:create, :update, :delete]
+      end
+    end
     get "/dummy/superuser", DummyController, :show, as: :superuser_test
     resources "/posts", PostController, only: [:create, :update, :delete]
     resources "/users", UserController, only: [:show, :index]

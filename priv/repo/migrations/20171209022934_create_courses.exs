@@ -6,7 +6,7 @@ defmodule MrbeekenBackend.Repo.Migrations.CreateCourses do
   def change do
     create table(:courses) do
       add :title, :string
-      add :summary, :string
+      add :summary, :text
 
       timestamps()
     end
