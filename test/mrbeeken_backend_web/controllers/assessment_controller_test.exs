@@ -55,7 +55,7 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
       == assessment.title
   end
 
-  test "#index returns a list of assessment objects",
+  test "#index returns a list of assessment objects scoped to unit",
     %{
       conn: conn,
       course: course

@@ -33,6 +33,65 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
     }
   end
 
+  test "#get returns a lesson object",
+    %{
+      conn: conn,
+      course: course
+    } do
+    lesson = insert(:lesson)
+
+    conn = get conn, course_unit_lesson_path(
+      conn,
+      :show,
+      lesson.unit.course.id,
+      lesson.unit.id,
+      lesson.id
+    )
+
+    response = json_response(conn, 200)
+    assert response["data"]["type"] == "lesson"
+    assert response["data"]["id"]
+      == Integer.to_string(lesson.id)
+    assert response["data"]["attributes"]["title"]
+      == lesson.title
+  end
+
+  test "#index returns a list of lesson objects scoped to unit",
+    %{
+      conn: conn,
+      course: course
+    } do
+    lesson = insert(:lesson)
+    unit = lesson.unit
+    lesson2 = insert(:lesson,
+      unit: unit
+    )
+    lesson3 = insert(:lesson)
+
+    conn = get conn, course_unit_lesson_path(
+      conn,
+      :index,
+      course.id,
+      unit.id
+    )
+
+    response = json_response(conn, 200)
+    first_object = Enum.at(response["data"], 0)
+    second_object = Enum.at(response["data"], 1)
+    last_object = Enum.at(response["data"], 2)
+    assert first_object["type"] == "lesson"
+    assert first_object["id"]
+      == Integer.to_string(lesson.id)
+    assert first_object["attributes"]["title"]
+      == lesson.title
+    assert second_object["type"] == "lesson"
+    assert second_object["id"]
+      == Integer.to_string(lesson2.id)
+    assert second_object["attributes"]["title"]
+      == lesson2.title
+    assert last_object == nil
+  end
+
   test "#create returns created object",
     %{
       conn: conn,

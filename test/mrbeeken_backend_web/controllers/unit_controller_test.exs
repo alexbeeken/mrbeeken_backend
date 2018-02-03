@@ -32,7 +32,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     }
   end
 
-  test "#get returns an assessment object", %{ conn: conn } do
+  test "#get returns a unit object", %{ conn: conn } do
     unit = insert(:unit)
 
     conn = get conn, course_unit_path(
@@ -52,7 +52,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
       == unit.summary
   end
 
-  test "#index returns a list of assessment objects",
+  test "#index returns a list of unit objects scoped to course",
     %{
       conn: conn
     } do
