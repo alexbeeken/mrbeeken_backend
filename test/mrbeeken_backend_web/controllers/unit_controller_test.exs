@@ -32,6 +32,63 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     }
   end
 
+  test "#get returns an assessment object", %{ conn: conn } do
+    unit = insert(:unit)
+
+    conn = get conn, course_unit_path(
+      conn,
+      :show,
+      unit.course.id,
+      unit.id
+    )
+
+    response = json_response(conn, 200)
+    assert response["data"]["type"] == "unit"
+    assert response["data"]["id"]
+      == Integer.to_string(unit.id)
+    assert response["data"]["attributes"]["title"]
+      == unit.title
+    assert response["data"]["attributes"]["summary"]
+      == unit.summary
+  end
+
+  test "#index returns a list of assessment objects",
+    %{
+      conn: conn
+    } do
+    unit = insert(:unit)
+    course = unit.course
+    unit2 = insert(:unit,
+      course: course
+    )
+    unit3 = insert(:unit)
+
+    conn = get conn, course_unit_path(
+      conn,
+      :index,
+      course.id
+    )
+
+    response = json_response(conn, 200)
+    first_object = Enum.at(response["data"], 0)
+    second_object = Enum.at(response["data"], 1)
+    last_object = Enum.at(response["data"], 2)
+    assert first_object["type"] == "unit"
+    assert first_object["id"] == Integer.to_string(unit.id)
+    assert first_object["attributes"]["title"]
+      == unit.title
+    assert first_object["attributes"]["summary"]
+      == unit.summary
+    assert second_object["type"] == "unit"
+    assert second_object["id"] == Integer.to_string(unit2.id)
+    assert second_object["attributes"]["title"]
+      == unit2.title
+    assert second_object["attributes"]["summary"]
+      == unit2.summary
+    assert last_object == nil
+  end
+
+
   test "#create returns created object",
     %{
       conn: conn,

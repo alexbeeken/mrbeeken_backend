@@ -49,6 +49,8 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
 
     response = json_response(conn, 200)
     assert response["data"]["type"] == "assessment"
+    assert response["data"]["id"]
+      == Integer.to_string(assessment.id)
     assert response["data"]["attributes"]["title"]
       == assessment.title
   end
@@ -77,9 +79,13 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
     second_object = Enum.at(response["data"], 1)
     last_object = Enum.at(response["data"], 2)
     assert first_object["type"] == "assessment"
+    assert first_object["id"]
+      == Integer.to_string(assessment.id)
     assert first_object["attributes"]["title"]
       == assessment.title
     assert second_object["type"] == "assessment"
+    assert second_object["id"]
+      == Integer.to_string(assessment2.id)
     assert second_object["attributes"]["title"]
       == assessment2.title
     assert last_object == nil
