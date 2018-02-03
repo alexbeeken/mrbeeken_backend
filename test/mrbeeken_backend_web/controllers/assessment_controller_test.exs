@@ -1,10 +1,10 @@
-defmodule MrbeekenBackendWeb.LessonControllerTest do
+defmodule MrbeekenBackendWeb.AssessmentControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
   import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper}
 
   alias MrbeekenBackend.Repo
-  alias MrbeekenBackendWeb.{Lesson}
+  alias MrbeekenBackendWeb.{Assessment}
 
   setup do
     course = insert(:course)
@@ -20,18 +20,17 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
     login(conn, user)
   end
 
-  def lesson_attrs do
+  def assessment_attrs do
     %{
-      title: "Test Lesson Title",
-      content: "Test Lesson Content"
+      title: "Test Assessment Title"
     }
   end
 
-  def lesson_params do
+  def assessment_params do
     %{
       data: %{
-        type: "Lesson",
-        attributes: lesson_attrs
+        type: "Assessment",
+        attributes: assessment_attrs
       }
     }
   end
@@ -43,20 +42,18 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
       unit: unit
     } do
 
-    conn = post conn, course_unit_lesson_path(
+    conn = post conn, course_unit_assessment_path(
       conn,
       :create,
       course.id,
       unit.id,
-      lesson_params
+      assessment_params
     )
 
     response = json_response(conn, 201)
-    assert response["data"]["type"] == "lesson"
+    assert response["data"]["type"] == "assessment"
     assert response["data"]["attributes"]["title"]
-      == lesson_attrs.title
-    assert response["data"]["attributes"]["content"]
-      == lesson_attrs.content
+      == assessment_attrs.title
   end
 
   test "#update returns updates object",
@@ -66,22 +63,20 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
       unit: unit
     } do
 
-    lesson = insert(:lesson)
-    conn = patch conn, course_unit_lesson_path(
+    assessment = insert(:assessment)
+    conn = patch conn, course_unit_assessment_path(
       conn,
       :update,
-      lesson.unit.course.id,
-      lesson.unit.id,
-      lesson.id,
-      lesson_params
+      assessment.unit.course.id,
+      assessment.unit.id,
+      assessment.id,
+      assessment_params
     )
 
     response = json_response(conn, 200)
-    assert response["data"]["type"] == "lesson"
+    assert response["data"]["type"] == "assessment"
     assert response["data"]["attributes"]["title"]
-      == lesson_attrs.title
-    assert response["data"]["attributes"]["content"]
-      == lesson_attrs.content
+      == assessment_attrs.title
   end
 
   test "#delete removes object",
@@ -91,16 +86,16 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
       unit: unit
     } do
 
-    lesson = insert(:lesson)
-    assert Repo.aggregate(Lesson, :count, :id) == 1
-    conn = delete conn, course_unit_lesson_path(
+    assessment = insert(:assessment)
+    assert Repo.aggregate(Assessment, :count, :id) == 1
+    conn = delete conn, course_unit_assessment_path(
       conn,
       :delete,
-      lesson.unit.course.id,
-      lesson.unit.id,
-      lesson.id
+      assessment.unit.course.id,
+      assessment.unit.id,
+      assessment.id
     )
-    assert Repo.aggregate(Lesson, :count, :id) == 0
+    assert Repo.aggregate(Assessment, :count, :id) == 0
     assert conn.status == 204
   end
 end
