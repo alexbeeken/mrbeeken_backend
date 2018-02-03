@@ -35,7 +35,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     }
   end
 
-  test "#create returns success",
+  test "#create returns created object",
     %{
       conn: conn,
       course: course
@@ -49,7 +49,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     assert response["data"]["attributes"]["summary"] == unit_attrs.summary
   end
 
-  test "#update successfully updates",
+  test "#update returns updates object",
     %{
       conn: conn,
       course: course
@@ -63,5 +63,19 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     assert response["data"]["type"] == "unit"
     assert response["data"]["attributes"]["title"] == unit_attrs.title
     assert response["data"]["attributes"]["summary"] == unit_attrs.summary
+  end
+
+  test "#delete removes object",
+    %{
+      conn: conn,
+      course: course
+    } do
+
+    unit = insert(:unit)
+    assert Repo.aggregate(Unit, :count, :id) == 1
+    conn = delete conn, course_unit_path(conn, :delete, unit.course.id, unit.id)
+
+    assert Repo.aggregate(Unit, :count, :id) == 0
+    assert conn.status == 204
   end
 end
