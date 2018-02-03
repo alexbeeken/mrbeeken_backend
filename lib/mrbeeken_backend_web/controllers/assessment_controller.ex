@@ -1,7 +1,8 @@
+require IEx
 defmodule MrbeekenBackendWeb.AssessmentController do
   use MrbeekenBackendWeb, :controller
 
-  alias MrbeekenBackendWeb.Assessment
+  alias MrbeekenBackendWeb.{Assessment, Unit}
   alias MrbeekenBackend.Repo
 
   use JaResource

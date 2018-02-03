@@ -30,7 +30,12 @@ defmodule MrbeekenBackendWeb.Router do
   scope "/api/v1", MrbeekenBackendWeb do
     pipe_through :api
 
-    resources "/courses", CourseController, only: [:show, :index]
+    resources "/courses", CourseController, only: [:show, :index] do
+      resources "/units", UnitController, only: [:show, :index] do
+        resources "/lessons", LessonController, only: [:show, :index]
+        resources "/assessments", AssessmentController, only: [:show, :index]
+      end
+    end
     resources "/posts", PostController, only: [:show, :index]
     post "/session/logout", SessionController, :logout
     get "users/unique/:email", UserController, :unique

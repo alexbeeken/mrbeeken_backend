@@ -1,7 +1,7 @@
 defmodule MrbeekenBackendWeb.UserControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
-  alias MrbeekenBackendWeb.UserView
+  alias MrbeekenBackendWeb.{UserView}
 
   setup do
     user = insert(:user)

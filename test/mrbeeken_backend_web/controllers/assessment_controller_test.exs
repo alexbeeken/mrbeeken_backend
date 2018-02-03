@@ -32,6 +32,60 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
     }
   end
 
+  test "#get returns an assessment object",
+    %{
+      conn: conn,
+      course: course,
+      unit: unit
+    } do
+    assessment = insert(:assessment)
+
+    conn = get conn, course_unit_assessment_path(
+      conn,
+      :show,
+      course.id,
+      unit.id,
+      assessment.id
+    )
+
+    response = json_response(conn, 200)
+    assert response["data"]["type"] == "assessment"
+    assert response["data"]["attributes"]["title"]
+      == assessment.title
+  end
+
+  test "#index returns a list of assessment objects",
+    %{
+      conn: conn,
+      course: course,
+      unit: unit
+    } do
+    assessment = insert(:assessment)
+    assessment2 = insert(:assessment,
+      unit: assessment.unit
+    )
+    assessment3 = insert(:assessment)
+
+    conn = get conn, course_unit_assessment_path(
+      conn,
+      :index,
+      course.id,
+      unit.id
+    )
+
+    response = json_response(conn, 200)
+    first_object = Enum.at(response["data"], 0)
+    second_object = Enum.at(response["data"], 1)
+    last_object = Enum.at(response["data"], 2)
+    assert first_object["type"] == "assessment"
+    assert first_object["attributes"]["title"]
+      == assessment.title
+    assert second_object["type"] == "assessment"
+    assert second_object["attributes"]["title"]
+      == assessment2.title
+    assert last_object == nil
+  end
+
   test "#create returns created object",
     %{
       conn: conn,
