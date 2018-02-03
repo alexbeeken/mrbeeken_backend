@@ -1,7 +1,8 @@
 defmodule MrbeekenBackendWeb.Unit do
   use Ecto.Schema
   import Ecto.Changeset
-
+  import Ecto.Query
+  
   schema "units" do
     field :title, :string
     field :summary, :string

@@ -35,16 +35,15 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
   test "#get returns an assessment object",
     %{
       conn: conn,
-      course: course,
-      unit: unit
+      course: course
     } do
     assessment = insert(:assessment)
 
     conn = get conn, course_unit_assessment_path(
       conn,
       :show,
-      course.id,
-      unit.id,
+      assessment.unit.course.id,
+      assessment.unit.id,
       assessment.id
     )
 
@@ -57,12 +56,12 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
   test "#index returns a list of assessment objects",
     %{
       conn: conn,
-      course: course,
-      unit: unit
+      course: course
     } do
     assessment = insert(:assessment)
+    unit = assessment.unit
     assessment2 = insert(:assessment,
-      unit: assessment.unit
+      unit: unit
     )
     assessment3 = insert(:assessment)
 
