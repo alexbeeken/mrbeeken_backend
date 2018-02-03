@@ -1,10 +1,10 @@
 defmodule MrbeekenBackendWeb.UnitControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
-  import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper, TestCreds}
+  import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper}
 
   alias MrbeekenBackend.Repo
-  alias MrbeekenBackendWeb.{Unit, UnitView}
+  alias MrbeekenBackendWeb.{Unit}
 
   setup do
     course = insert(:course)
