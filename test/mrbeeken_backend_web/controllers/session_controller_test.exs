@@ -1,11 +1,7 @@
 defmodule MrbeekenBackendWeb.SessionControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
-  import MrbeekenBackendWeb.{JsonApi, TestCreds, Factory}
-
-  alias MrbeekenBackend.Repo
   alias MrbeekenBackendWeb.{User, Errors, SessionView}
-
 
   setup do
     user = insert(:user)

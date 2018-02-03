@@ -1,9 +1,6 @@
 defmodule MrbeekenBackendWeb.LessonControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
-  import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper}
-
-  alias MrbeekenBackend.Repo
   alias MrbeekenBackendWeb.{Lesson}
 
   setup do

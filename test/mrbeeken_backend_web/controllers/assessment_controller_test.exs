@@ -1,9 +1,6 @@
 defmodule MrbeekenBackendWeb.AssessmentControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
-  import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper}
-
-  alias MrbeekenBackend.Repo
   alias MrbeekenBackendWeb.{Assessment}
 
   setup do

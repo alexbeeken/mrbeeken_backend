@@ -1,9 +1,6 @@
 defmodule MrbeekenBackendWeb.PostControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
-  import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper, TestCreds}
-
-  alias MrbeekenBackend.Repo
   alias MrbeekenBackendWeb.{PostView, Post}
 
   setup do

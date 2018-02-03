@@ -1,9 +1,6 @@
 defmodule MrbeekenBackendWeb.UnitControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
-  import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper}
-
-  alias MrbeekenBackend.Repo
   alias MrbeekenBackendWeb.{Unit}
 
   setup do

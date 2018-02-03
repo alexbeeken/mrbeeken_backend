@@ -19,7 +19,11 @@ defmodule MrbeekenBackendWeb.ConnCase do
     quote do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
+
+      import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper, TestCreds}
       import MrbeekenBackendWeb.Router.Helpers
+
+      alias MrbeekenBackend.Repo
 
       # The default endpoint for testing
       @endpoint MrbeekenBackendWeb.Endpoint

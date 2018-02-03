@@ -1,8 +1,6 @@
 defmodule MrbeekenBackendWeb.UserControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
-  import MrbeekenBackendWeb.{JsonApi, Factory, LoginHelper, TestCreds}
-
   alias MrbeekenBackendWeb.UserView
 
   setup do
