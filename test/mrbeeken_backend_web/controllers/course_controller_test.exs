@@ -1,7 +1,7 @@
 defmodule MrbeekenBackendWeb.CourseControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
-  alias MrbeekenBackendWeb.{Course, Unit}
+  alias MrbeekenBackendWeb.{Course}
 
   setup do
     conn =
