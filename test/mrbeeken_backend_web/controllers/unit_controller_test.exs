@@ -2,6 +2,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
   alias MrbeekenBackendWeb.{Unit, Assessment}
+  import Ecto.Query
 
   setup do
     course = insert(:course)
@@ -185,7 +186,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     assert conn.status == 204
   end
 
-  test "#delete deletes any child records", %{ conn: conn } do
+  test "#delete nilifies any child records", %{ conn: conn } do
     unit = insert(:unit)
     insert(:assessment, unit: unit)
     insert(:assessment)
@@ -199,7 +200,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     )
 
     assert Repo.aggregate(Unit, :count, :id) == 0
-    assert Repo.aggregate(Assessment, :count, :id) == 1
+    assert Repo.aggregate(Assessment, :count, :id) == 2
     assert conn.status == 204
   end
 end
