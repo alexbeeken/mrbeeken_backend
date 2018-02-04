@@ -52,6 +52,52 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
       == unit.summary
   end
 
+  test "#get returns relationship data for assessment", %{ conn: conn } do
+    unit = insert(:unit)
+    assessment = insert(:assessment, unit: unit)
+
+    conn = get conn, course_unit_path(
+      conn,
+      :show,
+      unit.course.id,
+      unit.id
+    )
+
+    response = json_response(conn, 200)
+    assessment_object = Enum.at(response["data"]["relationships"]["assessments"]["data"], 0)
+    assert response["data"]["type"] == "unit"
+    assert response["data"]["id"]
+      == Integer.to_string(unit.id)
+    assert response["data"]["attributes"]["title"]
+      == unit.title
+    assert response["data"]["attributes"]["summary"]
+      == unit.summary
+    assert assessment_object["id"] == Integer.to_string(assessment.id)
+  end
+
+  test "#get returns relationship data for lesson", %{ conn: conn } do
+    unit = insert(:unit)
+    lesson = insert(:lesson, unit: unit)
+
+    conn = get conn, course_unit_path(
+      conn,
+      :show,
+      unit.course.id,
+      unit.id
+    )
+
+    response = json_response(conn, 200)
+    lesson_object = Enum.at(response["data"]["relationships"]["lessons"]["data"], 0)
+    assert response["data"]["type"] == "unit"
+    assert response["data"]["id"]
+      == Integer.to_string(unit.id)
+    assert response["data"]["attributes"]["title"]
+      == unit.title
+    assert response["data"]["attributes"]["summary"]
+      == unit.summary
+    assert lesson_object["id"] == Integer.to_string(lesson.id)
+  end
+
   test "#index returns a list of unit objects scoped to course",
     %{
       conn: conn
