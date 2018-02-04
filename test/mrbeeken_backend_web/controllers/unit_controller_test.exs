@@ -1,7 +1,7 @@
 defmodule MrbeekenBackendWeb.UnitControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
-  alias MrbeekenBackendWeb.{Unit}
+  alias MrbeekenBackendWeb.{Unit, Assessment}
 
   setup do
     course = insert(:course)
@@ -182,6 +182,24 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     )
 
     assert Repo.aggregate(Unit, :count, :id) == 0
+    assert conn.status == 204
+  end
+
+  test "#delete deletes any child records", %{ conn: conn } do
+    unit = insert(:unit)
+    insert(:assessment, unit: unit)
+    insert(:assessment)
+    assert Repo.aggregate(Unit, :count, :id) == 1
+    assert Repo.aggregate(Assessment, :count, :id) == 2
+    conn = delete conn, course_unit_path(
+      conn,
+      :delete,
+      unit.course.id,
+      unit.id
+    )
+
+    assert Repo.aggregate(Unit, :count, :id) == 0
+    assert Repo.aggregate(Assessment, :count, :id) == 1
     assert conn.status == 204
   end
 end
