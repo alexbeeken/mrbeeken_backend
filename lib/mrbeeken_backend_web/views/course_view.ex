@@ -4,6 +4,18 @@ defmodule MrbeekenBackendWeb.CourseView do
   """
   use JaSerializer.PhoenixView
 
+  alias MrbeekenBackendWeb.{Unit, UnitSerializer}
+  alias MrbeekenBackend.{Repo}
+  import Ecto.Query
+
   attributes [:title, :summary]
 
+  has_many :units,
+    serializer: UnitSerializer,
+    include: true
+
+  def units(course, _) do
+    query = from a in Unit, where: a.course_id == ^course.id
+    Repo.all(query)
+  end
 end
