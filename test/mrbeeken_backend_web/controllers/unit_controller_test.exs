@@ -65,7 +65,11 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     )
 
     response = json_response(conn, 200)
-    assessment_object = Enum.at(response["data"]["relationships"]["assessments"]["data"], 0)
+    assessment_object =
+      Enum.at(
+        response["data"]["relationships"]["assessments"]["data"],
+        0
+      )
     assert response["data"]["type"] == "unit"
     assert response["data"]["id"]
       == Integer.to_string(unit.id)
@@ -88,7 +92,11 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     )
 
     response = json_response(conn, 200)
-    lesson_object = Enum.at(response["data"]["relationships"]["lessons"]["data"], 0)
+    lesson_object =
+      Enum.at(
+        response["data"]["relationships"]["lessons"]["data"],
+        0
+      )
     assert response["data"]["type"] == "unit"
     assert response["data"]["id"]
       == Integer.to_string(unit.id)
@@ -189,7 +197,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
   test "#delete nilifies any child records", %{ conn: conn } do
     unit = insert(:unit)
     insert(:assessment, unit: unit)
-    insert(:assessment)
+    insert(:assessment, unit: nil)
     assert Repo.aggregate(Unit, :count, :id) == 1
     assert Repo.aggregate(Assessment, :count, :id) == 2
     conn = delete conn, course_unit_path(

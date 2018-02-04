@@ -2,7 +2,12 @@ defmodule MrbeekenBackendWeb.UnitView do
   @moduledoc """
     Most of jsonapi is taken care of by ja serializer.
   """
-  alias MrbeekenBackendWeb.{Assessment, AssessmentSerializer, Lesson, LessonSerializer}
+  alias MrbeekenBackendWeb.{
+    Assessment,
+    AssessmentSerializer,
+    Lesson,
+    LessonSerializer
+  }
   alias MrbeekenBackend.Repo
   use JaSerializer.PhoenixView
   import Ecto.Query
