@@ -4,12 +4,10 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
   alias MrbeekenBackendWeb.{Lesson}
 
   setup do
-    course = insert(:course)
-    unit = insert(:unit)
     conn =
       build_conn()
       |> json_api_headers
-    {:ok, conn: login_superuser(conn), course: course, unit: unit}
+    { :ok, conn: login_superuser(conn) }
   end
 
   def login_superuser(conn) do
@@ -17,18 +15,25 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
     login(conn, user)
   end
 
-  def lesson_attrs do
+  def login_user(conn) do
+    user = insert(:user)
+    login(conn, user)
+  end
+
+
+  def lesson_attrs(unit) do
     %{
       title: "Test Lesson Title",
-      content: "Test Lesson Content"
+      content: "Test Lesson Content",
+      unit_id: unit.id
     }
   end
 
-  def lesson_params do
+  def lesson_params(unit) do
     %{
       data: %{
         type: "Lesson",
-        attributes: lesson_attrs()
+        attributes: lesson_attrs(unit)
       }
     }
   end
@@ -36,11 +41,9 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
   test "#get returns a lesson object", %{ conn: conn } do
     lesson = insert(:lesson)
 
-    conn = get conn, course_unit_lesson_path(
+    conn = get conn, lesson_path(
       conn,
       :show,
-      lesson.unit.course.id,
-      lesson.unit.id,
       lesson.id
     )
 
@@ -52,10 +55,9 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
       == lesson.title
   end
 
-  test "#index returns a list of lesson objects scoped to unit",
+  test "#index returns a list of lesson objects and filters to unit",
     %{
-      conn: conn,
-      course: course
+      conn: conn
     } do
     lesson = insert(:lesson)
     unit = lesson.unit
@@ -64,11 +66,10 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
     )
     insert(:lesson)
 
-    conn = get conn, course_unit_lesson_path(
+    conn = get conn, lesson_path(
       conn,
       :index,
-      course.id,
-      unit.id
+      %{ filter: %{ unit_id: unit.id } }
     )
 
     response = json_response(conn, 200)
@@ -90,55 +91,47 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
 
   test "#create returns created object",
     %{
-      conn: conn,
-      course: course,
-      unit: unit
+      conn: conn
     } do
-
-    conn = post conn, course_unit_lesson_path(
+    unit = insert(:unit)
+    conn = post conn, lesson_path(
       conn,
       :create,
-      course.id,
-      unit.id,
-      lesson_params()
+      lesson_params(unit)
     )
 
     response = json_response(conn, 201)
     assert response["data"]["type"] == "lesson"
     assert response["data"]["attributes"]["title"]
-      == lesson_attrs().title
+      == lesson_attrs(unit).title
     assert response["data"]["attributes"]["content"]
-      == lesson_attrs().content
+      == lesson_attrs(unit).content
   end
 
   test "#update returns updates object", %{ conn: conn } do
-
+    unit = insert(:unit)
     lesson = insert(:lesson)
-    conn = patch conn, course_unit_lesson_path(
+    conn = patch conn, lesson_path(
       conn,
       :update,
-      lesson.unit.course.id,
-      lesson.unit.id,
       lesson.id,
-      lesson_params()
+      lesson_params(unit)
     )
 
     response = json_response(conn, 200)
     assert response["data"]["type"] == "lesson"
     assert response["data"]["attributes"]["title"]
-      == lesson_attrs().title
+      == lesson_attrs(unit).title
     assert response["data"]["attributes"]["content"]
-      == lesson_attrs().content
+      == lesson_attrs(unit).content
   end
 
   test "#delete removes object", %{ conn: conn } do
     lesson = insert(:lesson)
     assert Repo.aggregate(Lesson, :count, :id) == 1
-    conn = delete conn, course_unit_lesson_path(
+    conn = delete conn, lesson_path(
       conn,
       :delete,
-      lesson.unit.course.id,
-      lesson.unit.id,
       lesson.id
     )
     assert Repo.aggregate(Lesson, :count, :id) == 0

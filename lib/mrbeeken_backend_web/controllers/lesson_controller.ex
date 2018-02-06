@@ -9,17 +9,7 @@ defmodule MrbeekenBackendWeb.LessonController do
 
   plug JaResource
 
-  def records(conn) do
-    { unit_id, "" } = Integer.parse(conn.params["unit_id"])
-    from a in Lesson, where: a.unit_id == ^unit_id
-  end
-
-  def handle_create(conn, params) do
-    { unit_id, _ } = Integer.parse(conn.params["unit_id"])
-    Repo.insert(%Lesson{
-      title: params["title"],
-      content: params["content"],
-      unit_id: unit_id
-    })
+  def filter(_conn, query, "unit_id", unit_id) do
+    where(query, unit_id: ^unit_id)
   end
 end

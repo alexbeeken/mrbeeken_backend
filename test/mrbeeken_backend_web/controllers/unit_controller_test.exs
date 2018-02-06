@@ -22,18 +22,19 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     login(conn, user)
   end
 
-  def unit_attrs do
+  def unit_attrs(course) do
     %{
       title: "Test Unit Title",
-      summary: "Test Unit Summary"
+      summary: "Test Unit Summary",
+      course_id: course.id
     }
   end
 
-  def unit_params do
+  def unit_params(course) do
     %{
       data: %{
         type: "Unit",
-        attributes: unit_attrs()
+        attributes: unit_attrs(course)
       }
     }
   end
@@ -108,7 +109,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     assert lesson_object["id"] == Integer.to_string(lesson.id)
   end
 
-  test "#index returns a list of unit objects scoped to course", %{ conn: conn } do
+  test "#index filter returns a list of unit objects scoped to course", %{ conn: conn } do
     conn = login_user(conn)
     unit = insert(:unit)
     course = unit.course
@@ -119,7 +120,8 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
 
     conn = get conn, unit_path(
       conn,
-      :index
+      :index,
+      filter: %{ course_id: course.id }
     )
 
     response = json_response(conn, 200)
@@ -142,21 +144,18 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
   end
 
 
-  test "#create returns created object",
-    %{
-      conn: conn
-    } do
-
+  test "#create returns created object", %{ conn: conn } do
+    course = insert(:course)
     conn = post conn, unit_path(
       conn,
       :create,
-      unit_params()
+      unit_params(course)
     )
 
     response = json_response(conn, 201)
     assert response["data"]["type"] == "unit"
-    assert response["data"]["attributes"]["title"] == unit_attrs().title
-    assert response["data"]["attributes"]["summary"] == unit_attrs().summary
+    assert response["data"]["attributes"]["title"] == unit_attrs(course).title
+    assert response["data"]["attributes"]["summary"] == unit_attrs(course).summary
   end
 
   test "#update returns updates object", %{ conn: conn } do
@@ -166,13 +165,13 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
       conn,
       :update,
       unit.id,
-      unit_params()
+      unit_params(course)
     )
 
     response = json_response(conn, 200)
     assert response["data"]["type"] == "unit"
-    assert response["data"]["attributes"]["title"] == unit_attrs().title
-    assert response["data"]["attributes"]["summary"] == unit_attrs().summary
+    assert response["data"]["attributes"]["title"] == unit_attrs(course).title
+    assert response["data"]["attributes"]["summary"] == unit_attrs(course).summary
   end
 
   test "#delete removes object", %{ conn: conn } do
