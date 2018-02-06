@@ -10,8 +10,12 @@ defmodule MrbeekenBackendWeb.UnitController do
   plug JaResource
 
   def records(conn) do
-    { course_id, "" } = Integer.parse(conn.params["course_id"])
-    from a in Unit, where: a.course_id == ^course_id
+    if conn.params["filter"] do
+      { course_id, "" } = Integer.parse(conn.params["course_id"])
+      from a in Unit, where: a.course_id == ^course_id
+    else
+      from a in Unit
+    end
   end
 
   def handle_create(conn, params) do

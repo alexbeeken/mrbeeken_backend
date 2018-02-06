@@ -17,6 +17,11 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     login(conn, user)
   end
 
+  def login_user(conn) do
+    user = insert(:user)
+    login(conn, user)
+  end
+
   def unit_attrs do
     %{
       title: "Test Unit Title",
@@ -34,14 +39,10 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
   end
 
   test "#get returns a unit object", %{ conn: conn } do
+    conn = login_user(conn)
     unit = insert(:unit)
 
-    conn = get conn, course_unit_path(
-      conn,
-      :show,
-      unit.course.id,
-      unit.id
-    )
+    conn = get conn, unit_path(conn, :show, unit.id)
 
     response = json_response(conn, 200)
     assert response["data"]["type"] == "unit"
@@ -54,13 +55,13 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
   end
 
   test "#get returns relationship data for assessment", %{ conn: conn } do
+    conn = login_user(conn)
     unit = insert(:unit)
     assessment = insert(:assessment, unit: unit)
 
-    conn = get conn, course_unit_path(
+    conn = get conn, unit_path(
       conn,
       :show,
-      unit.course.id,
       unit.id
     )
 
@@ -81,13 +82,13 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
   end
 
   test "#get returns relationship data for lesson", %{ conn: conn } do
+    conn = login_user(conn)
     unit = insert(:unit)
     lesson = insert(:lesson, unit: unit)
 
-    conn = get conn, course_unit_path(
+    conn = get conn, unit_path(
       conn,
       :show,
-      unit.course.id,
       unit.id
     )
 
@@ -107,10 +108,8 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     assert lesson_object["id"] == Integer.to_string(lesson.id)
   end
 
-  test "#index returns a list of unit objects scoped to course",
-    %{
-      conn: conn
-    } do
+  test "#index returns a list of unit objects scoped to course", %{ conn: conn } do
+    conn = login_user(conn)
     unit = insert(:unit)
     course = unit.course
     unit2 = insert(:unit,
@@ -118,10 +117,9 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     )
     insert(:unit)
 
-    conn = get conn, course_unit_path(
+    conn = get conn, unit_path(
       conn,
-      :index,
-      course.id
+      :index
     )
 
     response = json_response(conn, 200)
@@ -146,14 +144,12 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
 
   test "#create returns created object",
     %{
-      conn: conn,
-      course: course
+      conn: conn
     } do
 
-    conn = post conn, course_unit_path(
+    conn = post conn, unit_path(
       conn,
       :create,
-      course.id,
       unit_params()
     )
 
@@ -166,10 +162,9 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
   test "#update returns updates object", %{ conn: conn } do
     unit = insert(:unit)
     course = unit.course
-    conn = patch conn, course_unit_path(
+    conn = patch conn, unit_path(
       conn,
       :update,
-      course.id,
       unit.id,
       unit_params()
     )
@@ -183,10 +178,9 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
   test "#delete removes object", %{ conn: conn } do
     unit = insert(:unit)
     assert Repo.aggregate(Unit, :count, :id) == 1
-    conn = delete conn, course_unit_path(
+    conn = delete conn, unit_path(
       conn,
       :delete,
-      unit.course.id,
       unit.id
     )
 
@@ -200,10 +194,9 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     insert(:assessment, unit: nil)
     assert Repo.aggregate(Unit, :count, :id) == 1
     assert Repo.aggregate(Assessment, :count, :id) == 2
-    conn = delete conn, course_unit_path(
+    conn = delete conn, unit_path(
       conn,
       :delete,
-      unit.course.id,
       unit.id
     )
 

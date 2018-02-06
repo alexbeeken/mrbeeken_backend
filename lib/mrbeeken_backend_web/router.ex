@@ -25,6 +25,9 @@ defmodule MrbeekenBackendWeb.Router do
 
     get "/dummy", DummyController, :show
     get "/users/me", UserController, :me
+    resources "/assessments", AssessmentController, only: [:show, :index]
+    resources "/lessons", LessonController, only: [:show, :index]
+    resources "/units", UnitController, only: [:show, :index]
   end
 
   scope "/api/v1", MrbeekenBackendWeb do
@@ -41,9 +44,6 @@ defmodule MrbeekenBackendWeb.Router do
     pipe_through [:api, :valid_login]
 
     post "/session/login", SessionController, :login
-    resources "/assessments", AssessmentController, only: [:show, :index]
-    resources "/lessons", LessonController, only: [:show, :index]
-    resources "/units", UnitController, only: [:show, :index]
   end
 
   scope "/api/v1", MrbeekenBackendWeb do
