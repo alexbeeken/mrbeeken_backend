@@ -2,7 +2,6 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
   use MrbeekenBackendWeb.ConnCase
 
   alias MrbeekenBackendWeb.{Unit, Assessment}
-  import Ecto.Query
 
   setup do
     course = insert(:course)

@@ -1,8 +1,6 @@
 defmodule MrbeekenBackendWeb.LessonController do
   use MrbeekenBackendWeb, :controller
 
-  alias MrbeekenBackendWeb.Lesson
-  alias MrbeekenBackend.Repo
   import Ecto.Query
 
   use JaResource
