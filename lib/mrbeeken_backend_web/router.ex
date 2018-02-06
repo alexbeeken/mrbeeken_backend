@@ -50,7 +50,8 @@ defmodule MrbeekenBackendWeb.Router do
     pipe_through [:api, :auth, :superuser]
 
     get "/dummy/superuser", DummyController, :show, as: :superuser_test
-    resources "/assessments", AssessmentController, only: [:create, :update, :delete]
+    resources "/assessments", AssessmentController,
+      only: [:create, :update, :delete]
     resources "/courses", CourseController, only: [:create, :update, :delete]
     resources "/lessons", LessonController, only: [:create, :update, :delete]
     resources "/posts", PostController, only: [:create, :update, :delete]

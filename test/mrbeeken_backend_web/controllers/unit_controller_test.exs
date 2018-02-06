@@ -109,7 +109,10 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     assert lesson_object["id"] == Integer.to_string(lesson.id)
   end
 
-  test "#index filter returns a list of unit objects scoped to course", %{ conn: conn } do
+  test "#index filter returns a list of unit objects scoped to course",
+  %{
+    conn: conn
+  } do
     conn = login_user(conn)
     unit = insert(:unit)
     course = unit.course
@@ -154,8 +157,10 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
 
     response = json_response(conn, 201)
     assert response["data"]["type"] == "unit"
-    assert response["data"]["attributes"]["title"] == unit_attrs(course).title
-    assert response["data"]["attributes"]["summary"] == unit_attrs(course).summary
+    assert response["data"]["attributes"]["title"]
+      == unit_attrs(course).title
+    assert response["data"]["attributes"]["summary"]
+      == unit_attrs(course).summary
   end
 
   test "#update returns updates object", %{ conn: conn } do
@@ -170,8 +175,10 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
 
     response = json_response(conn, 200)
     assert response["data"]["type"] == "unit"
-    assert response["data"]["attributes"]["title"] == unit_attrs(course).title
-    assert response["data"]["attributes"]["summary"] == unit_attrs(course).summary
+    assert response["data"]["attributes"]["title"]
+      == unit_attrs(course).title
+    assert response["data"]["attributes"]["summary"]
+      == unit_attrs(course).summary
   end
 
   test "#delete removes object", %{ conn: conn } do
