@@ -4,12 +4,10 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
   alias MrbeekenBackendWeb.{Assessment}
 
   setup do
-    course = insert(:course)
-    unit = insert(:unit)
     conn =
       build_conn()
       |> json_api_headers
-    {:ok, conn: login_superuser(conn), course: course, unit: unit}
+    { :ok, conn: login_superuser(conn) }
   end
 
   def login_superuser(conn) do
@@ -17,32 +15,34 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
     login(conn, user)
   end
 
-  def assessment_attrs do
+  def login_user(conn) do
+    user = insert(:user, superuser: true)
+    login(conn, user)
+  end
+
+  def assessment_attrs(unit) do
     %{
-      title: "Test Assessment Title"
+      title: "Test Assessment Title",
+      unit_id: unit.id
     }
   end
 
-  def assessment_params do
+  def assessment_params(unit) do
     %{
       data: %{
         type: "Assessment",
-        attributes: assessment_attrs()
+        attributes: assessment_attrs(unit)
       }
     }
   end
 
-  test "#get returns an assessment object",
-    %{
-      conn: conn
-    } do
+  test "#get returns an assessment object", %{ conn: conn } do
+    conn = login_user(conn)
     assessment = insert(:assessment)
 
-    conn = get conn, course_unit_assessment_path(
+    conn = get conn, assessment_path(
       conn,
       :show,
-      assessment.unit.course.id,
-      assessment.unit.id,
       assessment.id
     )
 
@@ -56,8 +56,7 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
 
   test "#index returns a list of assessment objects scoped to unit",
     %{
-      conn: conn,
-      course: course
+      conn: conn
     } do
     assessment = insert(:assessment)
     unit = assessment.unit
@@ -66,11 +65,10 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
     )
     insert(:assessment)
 
-    conn = get conn, course_unit_assessment_path(
+    conn = get conn, assessment_path(
       conn,
       :index,
-      course.id,
-      unit.id
+      %{ filter: %{ unit_id: unit.id } }
     )
 
     response = json_response(conn, 200)
@@ -90,57 +88,47 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
     assert last_object == nil
   end
 
-  test "#create returns created object",
-    %{
-      conn: conn,
-      course: course,
-      unit: unit
-    } do
-
-    conn = post conn, course_unit_assessment_path(
+  test "#create returns created object", %{ conn: conn } do
+    conn = login_superuser(conn)
+    unit = insert(:unit)
+    conn = post conn, assessment_path(
       conn,
       :create,
-      course.id,
-      unit.id,
-      assessment_params()
+      assessment_params(unit)
     )
 
     response = json_response(conn, 201)
     assert response["data"]["type"] == "assessment"
     assert response["data"]["attributes"]["title"]
-      == assessment_attrs().title
+      == assessment_attrs(unit).title
   end
 
   test "#update returns updates object",
     %{
       conn: conn
     } do
-
+    unit = insert(:unit)
     assessment = insert(:assessment)
-    conn = patch conn, course_unit_assessment_path(
+    conn = patch conn, assessment_path(
       conn,
       :update,
-      assessment.unit.course.id,
-      assessment.unit.id,
       assessment.id,
-      assessment_params()
+      assessment_params(unit)
     )
 
     response = json_response(conn, 200)
     assert response["data"]["type"] == "assessment"
     assert response["data"]["attributes"]["title"]
-      == assessment_attrs().title
+      == assessment_attrs(unit).title
   end
 
   test "#delete removes object", %{ conn: conn } do
 
     assessment = insert(:assessment)
     assert Repo.aggregate(Assessment, :count, :id) == 1
-    conn = delete conn, course_unit_assessment_path(
+    conn = delete conn, assessment_path(
       conn,
       :delete,
-      assessment.unit.course.id,
-      assessment.unit.id,
       assessment.id
     )
     assert Repo.aggregate(Assessment, :count, :id) == 0

@@ -12,7 +12,7 @@ defmodule MrbeekenBackendWeb.Unit do
     timestamps()
   end
 
-  @required_fields ~w(title summary)a
+  @required_fields ~w(title summary course_id)a
 
   def changeset(struct, params \\ %{}) do
     struct

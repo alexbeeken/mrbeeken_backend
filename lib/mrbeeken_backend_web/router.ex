@@ -25,22 +25,20 @@ defmodule MrbeekenBackendWeb.Router do
 
     get "/dummy", DummyController, :show
     get "/users/me", UserController, :me
+    resources "/assessments", AssessmentController, only: [:show]
+    resources "/lessons", LessonController, only: [:show]
+    resources "/units", UnitController, only: [:show, :index]
   end
 
   scope "/api/v1", MrbeekenBackendWeb do
     pipe_through :api
 
-    resources "/courses", CourseController, only: [:show, :index] do
-      resources "/units", UnitController, only: [:show, :index] do
-        resources "/lessons", LessonController,
-          only: [:show, :index]
-        resources "/assessments", AssessmentController,
-          only: [:show, :index]
-      end
-    end
-    resources "/posts", PostController, only: [:show, :index]
-    post "/session/logout", SessionController, :logout
     get "/users/unique/:email", UserController, :unique
+    post "/session/logout", SessionController, :logout
+    resources "/assessments", AssessmentController, only: [:index]
+    resources "/lessons", LessonController, only: [:index]
+    resources "/courses", CourseController, only: [:show, :index]
+    resources "/posts", PostController, only: [:show, :index]
     resources "/users", UserController, only: [:create]
   end
 
@@ -53,17 +51,13 @@ defmodule MrbeekenBackendWeb.Router do
   scope "/api/v1", MrbeekenBackendWeb do
     pipe_through [:api, :auth, :superuser]
 
-    resources "/courses", CourseController, only: [:create, :update, :delete] do
-      resources "/units", UnitController,
-        only: [:create, :update, :delete] do
-        resources "/lessons", LessonController,
-          only: [:create, :update, :delete]
-        resources "/assessments", AssessmentController,
-          only: [:create, :update, :delete]
-      end
-    end
     get "/dummy/superuser", DummyController, :show, as: :superuser_test
+    resources "/assessments", AssessmentController,
+      only: [:create, :update, :delete]
+    resources "/courses", CourseController, only: [:create, :update, :delete]
+    resources "/lessons", LessonController, only: [:create, :update, :delete]
     resources "/posts", PostController, only: [:create, :update, :delete]
+    resources "/units", UnitController, only: [:create, :update, :delete]
     resources "/users", UserController, only: [:show, :index]
   end
 end
