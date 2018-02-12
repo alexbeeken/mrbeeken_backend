@@ -3,8 +3,6 @@ defmodule MrbeekenBackendWeb.UnitController do
   use JaResource
   use MrbeekenBackendWeb, :controller
 
-  alias MrbeekenBackendWeb.Unit
-  alias MrbeekenBackend.Repo
   import Ecto.Query
 
   plug JaResource
