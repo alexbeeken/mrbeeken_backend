@@ -1,4 +1,3 @@
-require IEx
 defmodule MrbeekenBackendWeb.UnitController do
   use JaResource
   use MrbeekenBackendWeb, :controller

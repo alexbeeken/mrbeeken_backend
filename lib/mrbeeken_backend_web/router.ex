@@ -25,8 +25,8 @@ defmodule MrbeekenBackendWeb.Router do
 
     get "/dummy", DummyController, :show
     get "/users/me", UserController, :me
-    resources "/assessments", AssessmentController, only: [:show, :index]
-    resources "/lessons", LessonController, only: [:show, :index]
+    resources "/assessments", AssessmentController, only: [:show]
+    resources "/lessons", LessonController, only: [:show]
     resources "/units", UnitController, only: [:show, :index]
   end
 
@@ -35,6 +35,8 @@ defmodule MrbeekenBackendWeb.Router do
 
     get "/users/unique/:email", UserController, :unique
     post "/session/logout", SessionController, :logout
+    resources "/assessments", AssessmentController, only: [:index]
+    resources "/lessons", LessonController, only: [:index]
     resources "/courses", CourseController, only: [:show, :index]
     resources "/posts", PostController, only: [:show, :index]
     resources "/users", UserController, only: [:create]
