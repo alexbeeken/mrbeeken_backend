@@ -25,7 +25,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     %{
       title: "Test Unit Title",
       summary: "Test Unit Summary",
-      order: "0",
+      order: 0,
       course_id: course.id
     }
   end
@@ -183,7 +183,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
       == unit_attrs(course).summary
   end
 
-  test "#update returns updates object", %{ conn: conn } do
+  test "#update returns updated object", %{ conn: conn } do
     unit = insert(:unit)
     course = unit.course
     conn = patch conn, unit_path(
@@ -199,6 +199,26 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
       == unit_attrs(course).title
     assert response["data"]["attributes"]["summary"]
       == unit_attrs(course).summary
+  end
+
+  test "#update order succeeds", %{ conn: conn } do
+    unit = insert(:unit, order: 1123131)
+    course = unit.course
+    conn = patch conn, unit_path(
+      conn,
+      :update,
+      unit.id,
+      unit_params(course)
+    )
+
+    response = json_response(conn, 200)
+    assert response["data"]["type"] == "unit"
+    assert response["data"]["attributes"]["title"]
+      == unit_attrs(course).title
+    assert response["data"]["attributes"]["summary"]
+      == unit_attrs(course).summary
+    assert response["data"]["attributes"]["order"]
+      == unit_attrs(course).order
   end
 
   test "#delete removes object", %{ conn: conn } do
