@@ -59,7 +59,7 @@ defmodule MrbeekenBackendWeb.CourseControllerTest do
     assert response["data"]["attributes"]["summary"] == course.summary
   end
 
-  test "#show returns course object with relationships", %{ conn: conn } do
+  test "#show returns course object with unit ids", %{ conn: conn } do
     course = insert(:course)
     unit = insert(:unit, course: course)
     conn = get conn, course_path(conn, :show, course)
@@ -70,6 +70,22 @@ defmodule MrbeekenBackendWeb.CourseControllerTest do
     assert response["data"]["attributes"]["title"] == course.title
     assert response["data"]["attributes"]["summary"] == course.summary
     assert unit_object["id"] == Integer.to_string(unit.id)
+  end
+
+  test "#show returns course object with unit attrs", %{ conn: conn } do
+    course = insert(:course)
+    unit = insert(:unit, course: course)
+    conn = get conn, course_path(conn, :show, course)
+
+    response = json_response(conn, 200)
+    unit_object =
+      Enum.at(response["included"], 0)
+    assert response["data"]["type"] == "course"
+    assert response["data"]["attributes"]["title"] == course.title
+    assert response["data"]["attributes"]["summary"] == course.summary
+    assert unit_object["id"] == Integer.to_string(unit.id)
+    assert unit_object["attributes"]["order"] == unit.order
+    assert unit_object["attributes"]["title"] == unit.title
   end
 
   test "#index returns course objects", %{ conn: conn } do

@@ -58,7 +58,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
   test "#get returns relationship data for assessment", %{ conn: conn } do
     conn = login_user(conn)
     unit = insert(:unit)
-    assessment = insert(:assessment, unit: unit)
+    assessment = insert(:assessment, unit: unit, order: 66)
 
     conn = get conn, unit_path(
       conn,
@@ -67,11 +67,9 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     )
 
     response = json_response(conn, 200)
+    assert length(response["included"]) == 1
     assessment_object =
-      Enum.at(
-        response["data"]["relationships"]["assessments"]["data"],
-        0
-      )
+      Enum.at(response["included"], 0)
     assert response["data"]["type"] == "unit"
     assert response["data"]["id"]
       == Integer.to_string(unit.id)
@@ -79,7 +77,12 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
       == unit.title
     assert response["data"]["attributes"]["summary"]
       == unit.summary
-    assert assessment_object["id"] == Integer.to_string(assessment.id)
+    assert assessment_object["id"]
+      == Integer.to_string(assessment.id)
+    assert assessment_object["attributes"]["order"]
+      == assessment.order
+    assert assessment_object["attributes"]["title"]
+      == assessment.title
   end
 
   test "#get returns relationship data for lesson", %{ conn: conn } do
