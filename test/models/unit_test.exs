@@ -6,7 +6,7 @@ defmodule MrbeekenBackendWeb.UnitTest do
   @valid_attrs %{
     title: "Note Names",
     summary: "You'll learn note names in this unit.",
-    order_num: "0",
+    order: "0",
     course_id: 1
   }
   @invalid_attrs %{}

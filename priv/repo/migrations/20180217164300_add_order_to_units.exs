@@ -3,7 +3,7 @@ defmodule MrbeekenBackend.Repo.Migrations.AddOrderToUnits do
 
   def change do
     alter table(:units) do
-      add :order_num, :integer
+      add :order, :integer
     end
   end
 end

@@ -11,6 +11,6 @@ defmodule MrbeekenBackendWeb.UnitController do
   end
 
   def sort(_conn, query, _, _) do
-    order_by(query, [{^"asc", :order_num}])
+    order_by(query, [{^"asc", :order}])
   end
 end

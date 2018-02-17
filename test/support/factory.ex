@@ -40,7 +40,7 @@ defmodule MrbeekenBackendWeb.Factory do
     %Unit{
       title: sequence("unit title"),
       summary: sequence("unit summary"),
-      order_num: sequence(:order, &"#{&1}"),
+      order: sequence(:order, &"#{&1}"),
       course: build(:course)
     }
   end
