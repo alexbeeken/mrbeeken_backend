@@ -4,12 +4,13 @@ defmodule MrbeekenBackendWeb.Assessment do
 
   schema "assessments" do
     field :title, :string
+    field :order, :integer
     belongs_to :unit, MrbeekenBackendWeb.Unit
 
     timestamps()
   end
 
-  @required_fields ~w(title unit_id)a
+  @required_fields ~w(title order unit_id)a
 
   def changeset(struct, params \\ %{}) do
     struct

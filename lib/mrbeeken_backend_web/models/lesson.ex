@@ -5,12 +5,13 @@ defmodule MrbeekenBackendWeb.Lesson do
   schema "lessons" do
     field :title, :string
     field :content, :string
+    field :order, :integer
     belongs_to :unit, MrbeekenBackendWeb.Unit
 
     timestamps()
   end
 
-  @required_fields ~w(title content unit_id)a
+  @required_fields ~w(title content order unit_id)a
 
   def changeset(struct, params \\ %{}) do
     struct

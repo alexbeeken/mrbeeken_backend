@@ -2,5 +2,5 @@ defmodule MrbeekenBackendWeb.UnitSerializer do
   use JaSerializer
 
   location "/units/:id"
-  attributes [:title, :summary, :course_id]
+  attributes [:title, :summary, :course_id, :order_num]
 end

@@ -25,6 +25,7 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
     %{
       title: "Test Lesson Title",
       content: "Test Lesson Content",
+      order: "0",
       unit_id: unit.id
     }
   end
@@ -87,6 +88,27 @@ defmodule MrbeekenBackendWeb.LessonControllerTest do
     assert second_object["attributes"]["title"]
       == lesson2.title
     assert last_object == nil
+  end
+
+  test "#index returns a list of lesson objects in order",
+    %{
+      conn: conn
+    } do
+    insert(:lesson, title: "first", order: 0)
+    insert(:lesson, title: "second", order: 1)
+
+    conn = get conn, lesson_path(
+      conn,
+      :index
+    )
+
+    response = json_response(conn, 200)
+    first_object = Enum.at(response["data"], 0)
+    second_object = Enum.at(response["data"], 1)
+    assert first_object["attributes"]["title"] == "first"
+    assert first_object["attributes"]["order"] == 0
+    assert second_object["attributes"]["title"] == "second"
+    assert second_object["attributes"]["order"] == 1
   end
 
   test "#create returns created object",

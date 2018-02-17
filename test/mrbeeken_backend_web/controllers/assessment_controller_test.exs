@@ -23,6 +23,7 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
   def assessment_attrs(unit) do
     %{
       title: "Test Assessment Title",
+      order: "0",
       unit_id: unit.id
     }
   end
@@ -87,6 +88,28 @@ defmodule MrbeekenBackendWeb.AssessmentControllerTest do
       == assessment2.title
     assert last_object == nil
   end
+
+  test "#index returns a list of assessment objects in order",
+    %{
+      conn: conn
+    } do
+    insert(:assessment, title: "first", order: 0)
+    insert(:assessment, title: "second", order: 1)
+
+    conn = get conn, assessment_path(
+      conn,
+      :index
+    )
+
+    response = json_response(conn, 200)
+    first_object = Enum.at(response["data"], 0)
+    second_object = Enum.at(response["data"], 1)
+    assert first_object["attributes"]["title"] == "first"
+    assert first_object["attributes"]["order"] == 0
+    assert second_object["attributes"]["title"] == "second"
+    assert second_object["attributes"]["order"] == 1
+  end
+
 
   test "#create returns created object", %{ conn: conn } do
     conn = login_superuser(conn)

@@ -40,6 +40,7 @@ defmodule MrbeekenBackendWeb.Factory do
     %Unit{
       title: sequence("unit title"),
       summary: sequence("unit summary"),
+      order_num: sequence(:order, &"#{&1}"),
       course: build(:course)
     }
   end
@@ -48,6 +49,7 @@ defmodule MrbeekenBackendWeb.Factory do
     %Lesson{
       title: sequence("lesson title"),
       content: sequence("lesson content"),
+      order: sequence(:order, &"#{&1}"),
       unit: build(:unit)
     }
   end
@@ -55,6 +57,7 @@ defmodule MrbeekenBackendWeb.Factory do
   def assessment_factory do
     %Assessment{
       title: sequence("assessment title"),
+      order: sequence(:order, &"#{&1}"),
       unit: build(:unit)
     }
   end

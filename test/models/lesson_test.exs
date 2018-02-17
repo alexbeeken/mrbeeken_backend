@@ -6,11 +6,13 @@ defmodule MrbeekenBackendWeb.LessonTest do
   @valid_attrs %{
     title: "Note Names",
     content: "The lesson is this",
+    order: 1,
     unit_id: 0
   }
   @no_unit_attrs %{
     title: "Note Names",
-    content: "The lesson is this"
+    content: "The lesson is this",
+    order: 1,
   }
   @invalid_attrs %{}
 

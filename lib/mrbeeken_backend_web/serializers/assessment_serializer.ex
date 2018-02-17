@@ -2,5 +2,5 @@ defmodule MrbeekenBackendWeb.AssessmentSerializer do
   use JaSerializer
 
   location "/assessments/:id"
-  attributes [:title, :unit_id]
+  attributes [:title, :order, :unit_id]
 end

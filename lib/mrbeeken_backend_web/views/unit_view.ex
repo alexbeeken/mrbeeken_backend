@@ -12,7 +12,7 @@ defmodule MrbeekenBackendWeb.UnitView do
   use JaSerializer.PhoenixView
   import Ecto.Query
 
-  attributes [:title, :summary, :course_id]
+  attributes [:title, :summary, :order_num, :course_id]
 
   has_many :assessments,
     serializer: AssessmentSerializer,

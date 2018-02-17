@@ -25,6 +25,7 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     %{
       title: "Test Unit Title",
       summary: "Test Unit Summary",
+      order_num: "0",
       course_id: course.id
     }
   end
@@ -145,6 +146,26 @@ defmodule MrbeekenBackendWeb.UnitControllerTest do
     assert last_object == nil
   end
 
+  test "#index returns a list of unit objects in order",
+    %{
+      conn: conn
+    } do
+    insert(:unit, title: "first", order_num: 0)
+    insert(:unit, title: "second", order_num: 1)
+
+    conn = get conn, unit_path(
+      conn,
+      :index
+    )
+
+    response = json_response(conn, 200)
+    first_object = Enum.at(response["data"], 0)
+    second_object = Enum.at(response["data"], 1)
+    assert first_object["attributes"]["title"] == "first"
+    assert first_object["attributes"]["order-num"] == 0
+    assert second_object["attributes"]["title"] == "second"
+    assert second_object["attributes"]["order-num"] == 1
+  end
 
   test "#create returns created object", %{ conn: conn } do
     course = insert(:course)

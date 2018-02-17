@@ -1,8 +1,6 @@
 defmodule MrbeekenBackend.Repo.Migrations.CreateCourses do
   use Ecto.Migration
 
-  alias MrbeekenBackendWeb.Unit
-
   def change do
     create table(:courses) do
       add :title, :string

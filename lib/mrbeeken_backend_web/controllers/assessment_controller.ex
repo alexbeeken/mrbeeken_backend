@@ -1,6 +1,6 @@
 defmodule MrbeekenBackendWeb.AssessmentController do
-  use JaResource
   use MrbeekenBackendWeb, :controller
+  use JaResource
 
   import Ecto.Query
 
@@ -8,5 +8,9 @@ defmodule MrbeekenBackendWeb.AssessmentController do
 
   def filter(_conn, query, "unit_id", unit_id) do
     where(query, unit_id: ^unit_id)
+  end
+
+  def sort(_conn, query, _, _) do
+    order_by(query, [{^"asc", :order}])
   end
 end

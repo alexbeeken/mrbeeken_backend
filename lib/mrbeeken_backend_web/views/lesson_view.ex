@@ -4,5 +4,5 @@ defmodule MrbeekenBackendWeb.LessonView do
   """
   use JaSerializer.PhoenixView
 
-  attributes [:title, :content, :unit_id]
+  attributes [:title, :content, :order, :unit_id]
 end

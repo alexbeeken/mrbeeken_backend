@@ -5,10 +5,12 @@ defmodule MrbeekenBackendWeb.AssessmentTest do
 
   @valid_attrs %{
     title: "Note Names",
+    order: 1,
     unit_id: 0
   }
   @no_unit_attrs %{
-    title: "Note Names"
+    title: "Note Names",
+    order: 1,
   }
   @invalid_attrs %{}
 
